@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"> 
+
+    <h:body>
+        <ui:composition template="../../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Group Contacts
+            </ui:define>
+            <ui:define name="pageContent">
+                <div class="card">
+                    <div class="card-header">Create #{msg.group}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mx-auto">
+                                <h:form id="contactGroupForm" class="spaced-form">
+                                        
+                                    <div class="form-group">
+                                        <p class="text-muted">#{msg.group} Name <span class="text-danger">*</span></p>
+                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.smsGrup}" required="true" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                            <f:selectItems value="#{userCommonClass.smsGroupList}"/>
+                                        </p:selectOneMenu>
+                                        
+                                        <span>
+                                            <p:commandButton class="kbtn-secondary" title="Create Group" icon="fa fa-plus" update=":groupDialog" oncomplete="PF('groupDialog').show()"/>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="col-form-label text-muted">#{msg.contact} <span class="text-danger">*</span></p>
+                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.client}" required="true" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                            <f:selectItems value="#{userCommonClass.clientList}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="pt-3">
+                                        <p:commandButton rendered="#{appSession.currentUser.permSave == true}" class="kbtn-success mr-3" value="#{contactGroupController.optionText}" update="@form, :contactGroupTable"
+                                                         action="#{contactGroupController.saveContactGroup()}"/>
+
+                                        <p:commandButton class="kbtn-cancel" value="#{msg.clear}" immediate="true"
+                                                         action="#{contactGroupController.clearContactGroup()}" update="@form"/>
+                                    </div>
+                                </h:form>
+                            </div>
+
+                            <div class="col-md-8">
+                                <h:form id="contactGroupTable">
+                                    <p:dataTable value="#{contactGroupController.contactGroupList}" var="group" scrollable="true" scrollHeight="300">
+                                        <p:column style="width: 37px;">
+                                            <p:rowToggler/>
+                                        </p:column>
+
+                                        <p:rowExpansion>
+                                            <h:panelGrid columns="2">
+                                                <span>Group Id</span>
+                                                <h:outputText value="#{group.contactGroupId}"/>
+                                            </h:panelGrid>
+                                        </p:rowExpansion>
+
+                                        <p:column headerText="#{msg.fullname}">
+                                            #{group.client.clientName}
+                                        </p:column>
+
+                                        <p:column headerText="#{msg.contact}">
+                                            #{group.client.phone}
+                                        </p:column>
+
+                                        <p:column headerText="#{msg.group}">
+                                            #{group.smsGrup.groupName}
+                                        </p:column>
+
+                                        <p:column rendered="#{appSession.currentUser.permUpdate == true}" headerText="#{msg.action}" exportable="false" style="width: 80px;">
+                                            <p:commandButton styleClass="kbtn-info" value="#{msg.edit}" immediate="true" update="@form, :contactGroupForm"
+                                                             action="#{contactGroupController.editContactGroup(group)}"/>
+                                        </p:column>
+
+                                        <p:column rendered="#{appSession.currentUser.permDelete == true}" headerText="#{msg.action}" exportable="false" style="width: 100px;">
+                                            <p:commandButton styleClass="kbtn-danger" value="#{msg.delete}"  action="#{contactGroupController.deleteContactGroup(group)}" 
+                                                             onclick="return confirm('#{msg.delete_message}')" update="@form"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p:dialog resizable="false" widgetVar="groupDialog" closeOnEscape="true" modal="true" id="groupDialog" height="140"  width="300">
+                        <ui:include src="includes/create-group.xhtml"/>
+                    </p:dialog>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

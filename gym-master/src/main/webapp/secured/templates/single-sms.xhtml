@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Single Messaging
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <div class="card">
+                    <div class="card-header">
+                        Process Message
+                    </div>
+                    <div class="card-body">
+                        <h:panelGroup id="smsPanel">
+                            <div class="row">
+                                <div class="col-md-4 wow fadeIn">
+                                    <h:form>
+                                        <p:commandButton class="kbtn-secondary" action="#{smsController.loadCustomers()}" update="@form" value="Reload"/>
+                                        <p:dataTable value="#{smsController.customerRegistrationList}" var="contact" scrollable="true" scrollHeight="250">
+                                            <p:column headerText="#{msg.customer}" filterBy="#{contact.customerName}" filterMatchMode="contains">
+                                                <h:outputText value="#{contact.customerName}"/>
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.mobile_no}" filterBy="#{contact.phoneNumber}" filterMatchMode="contains">
+                                                <h:commandLink class="ptext-link" value="#{contact.phoneNumber}" action="#{smsController.manage(contact)}">
+                                                    <p:ajax update="smsPanel"/>
+                                                </h:commandLink>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </div>
+
+                                <div class="col-md-8">  
+                                    <div class="row py-3">
+                                        <h:outputText id="details" class="field-shade col-md-12" value="
+                                                      #{smsController.selectedCustomer.customerName} - 
+                                                      #{smsController.selectedCustomer.phoneNumber}
+                                                      "/> 
+                                    </div>
+                                        
+                                    <ui:include src="includes/message.xhtml"/>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

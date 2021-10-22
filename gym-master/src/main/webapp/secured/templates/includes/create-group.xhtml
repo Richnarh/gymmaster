@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">  
+
+    <h:body>
+        <div class="col-md-12">
+            <h:form class="spaced-form">
+                <div class="form-group row">
+                    <label class="col-form-label text-muted">#{msg.group} Name</label>
+                    <input type="text" required="true" jsf:value="#{smsGrupController.smsGrup.groupName}" class="form-control" placeholder="Enter group name"/>
+                </div>
+                
+
+                <div class="pt-3 mx-auto">
+                    <p:commandButton rendered="#{appSession.currentUser.permSave == true}" class="kbtn-success mr-3" value="#{smsGrupController.optionText}" update="@form"
+                                     action="#{smsGrupController.saveSMSGrup()}" />
+
+                    <p:commandButton class="kbtn-cancel" value="#{msg.clear}" immediate="true"
+                                     action="#{smsGrupController.clearSMSGrup()}" update="@form"/>
+                </div>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
+

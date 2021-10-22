@@ -1,0 +1,190 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 1, 2020, 9:20:36 PM
+    Author     : khoders
+*/
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+.row-toggler{
+     width: 40px;
+}
+
+.card-block{
+    margin: 2.5em;
+}
+
+.cart-card{
+   border: 1px solid #042955; 
+   padding: 1%;
+   box-shadow: 0 0 15px 0 lightgrey; 
+}
+
+.khoders-card{
+    padding: 10px; 
+    box-shadow: 0 0 25px 0 lightgrey;
+    background: #F9F9F9;
+    border: 1px solid #607D8B;
+}
+.text-color{
+    color: #042955;
+}
+.spaced-form td
+{
+    padding: .3em; 
+}
+
+.khoders-card-o{
+    box-shadow: 0 0 25px 0 lightgrey;
+    background: #172D44 !important;
+    color: #f9f9f9 !important;
+}
+
+.kbtn-light{
+    background: #f8f9fa !important;
+    color: #1f2d3d !important;
+    border-color: #1f2d3d !important;
+}
+
+.kbtn-primary{
+    background: #81D4FA !important;
+    color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+.display-box{
+    border: 2px solid #C51162; 
+    padding: 1%;
+    background: #1769aa;
+    color: #f9f9f9;
+    box-shadow: 0 0 15px 0 lightgrey;
+}
+
+.kbtn-primary:hover{
+    background: #0288D1 !important;
+    color: #f8f9fa !important;
+    border-color: #0288D1 !important;
+    transition: ease-in 0.3s;
+}
+
+.kbtn-success{
+    background: #28a745 !important;
+    border-color: #28a745 !important;
+}
+.kbtn-success:hover{
+    background: #A5D6A7 !important;
+    color: #28a745 !important;
+    border-color: #28a745 !important;
+    transition: ease-in 0.3s;
+}
+.kbtn-danger{
+    background: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+.kbtn-danger:hover{
+    background: transparent !important;
+    color: #dc3545 !important;
+    transition: ease-in 0.3s;
+}
+
+.kbtn-cancel{
+    background: #d3d9df !important;
+    color: #dc3545 !important;
+    border-color: #d3d9df !important;
+}
+.kbtn-cancel:hover{
+    background: #d3d9df !important;
+    color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    transition: ease-in 0.3s;
+}
+.kbtn-info{
+    background: #17a2b8 !important;
+    border-color: #17a2b8 !important;
+}
+
+.kbtn-edit-info{
+    background: transparent !important;
+    color: #17a2b8 !important;
+    border-color: #17a2b8 !important;
+}
+
+.kbtn-edit-info:hover{
+    background: #17a2b8 !important;
+    color: #fff !important;
+    border-color: #17a2b8 !important;
+}
+
+
+.kbtn-info:hover{
+    background: transparent !important;
+    color: #17a2b8 !important;
+    transition: ease-in 0.3s;
+}
+
+.kbtn-link{
+    color: #17a2b8 !important;
+}
+.kbtn-secondary {
+    color: #f9f9f9 !important;
+    background-color: #607D8B !important;
+    border-color: #172D44 !important;
+}
+.kbtn-secondary:hover {
+    color: #172D44 !important;
+    background-color: #B0BEC5 !important;
+    border-color: #172D44 !important;
+    transition: ease-in 0.3s ;
+}
+
+.kbtn-link:hover{
+    color: #17a2b8 !important;
+    padding: 3px !important;
+    border: 1px solid #81D4FA !important;
+}
+
+.field-shade
+{
+    font-family: cursive;
+    display: inline-block;
+    display: block;
+    min-height: 1em;
+    margin: 2px;
+    padding: 2px 5px 2px 5px;
+    background: #2A3F54;
+    border-bottom:solid 1px #CCC;
+    line-height: 20px;
+    color: #f9f9f9;
+}
+
+.required_field{
+    color: #B94A48;
+    border-bottom: 0.5px dashed;
+}
+
+.display-box{
+    border: 2px solid #C51162; 
+    padding: 1%;
+    background: #1769aa;
+    color: #f9f9f9;
+    box-shadow: 0 0 15px 0 lightgrey;
+}
+
+.faded-shade{
+    font-family: cursive;
+    display: inline-block;
+    display: block;
+    min-height: 1em;
+    margin: 2px;
+    padding: 2px 5px 2px 5px;
+    background: #CFD8DC;
+    border-bottom:solid 1px #CCC;
+    line-height: 20px;
+    color: #2A3F54;
+}

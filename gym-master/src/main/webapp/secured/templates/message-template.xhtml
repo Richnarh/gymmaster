@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"> 
+
+    <h:body>
+        <ui:composition template="../../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Message Template
+            </ui:define>
+            <ui:define name="pageContent">
+                <div class="card wow zoomInDown">
+                    <div class="card-header">Create #{msg.message_template}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h:form id="messageTemplateForm" class="spaced-form">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Ref. Name</label>
+                                        <div class="col-md-10">
+                                            <input type="text" jsf:value="#{messageTemplateController.messageTemplate.templateName}" required="true" class="form-control" placeholder="Enter template name"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Text</label>
+                                        <div class="col-md-10">
+                                            <textarea type="text" rows="10" jsf:value="#{messageTemplateController.messageTemplate.templateText}" required="true" class="form-control" placeholder="Template Text"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3">
+                                        <p:commandButton class="kbtn-success mr-3" value="#{messageTemplateController.optionText}" update="@form, :messageTemplateTable"
+                                                         action="#{messageTemplateController.saveMessageTemplate()}" />
+
+                                        <p:commandButton class="kbtn-cancel" value="#{msg.clear}" immediate="true"
+                                                         action="#{messageTemplateController.clearMessageTemplate()}" update="@form"/>
+                                    </div>
+                                </h:form>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h:form id="messageTemplateTable">
+                                    <p:dataTable value="#{messageTemplateController.messageTemplateList}" var="messageTemplate">
+                                        <p:column class="row-toggler">
+                                            <p:rowToggler/>
+                                        </p:column>
+
+                                        <p:rowExpansion>
+                                            <h:panelGrid columns="2">
+                                                <h:panelGrid columns="2">
+                                                    <span>#{msg.created_date}</span>
+                                                <h:outputText value="#{messageTemplate.createdDate}">
+                                                    <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
+                                                </h:outputText>
+                                                    
+                                                <span>Text</span>
+                                                <h:outputText class="truncate" value="#{messageTemplate.templateText}"/>
+
+                                                <p:commandButton class="kbtn-edit-info mr-3" value="#{msg.edit}" update=":messageTemplateForm"
+                                                                 action="#{messageTemplateController.editMessageTemplate(messageTemplate)}"/>
+                                                <p:commandButton class="kbtn-danger" value="#{msg.delete}" onclick="return confirm('#{msg.delete_message}')"
+                                                                 action="#{messageTemplateController.deleteMessageTemplate(messageTemplate)}"/>
+                                                </h:panelGrid>
+                                                
+                                            </h:panelGrid>
+                                        </p:rowExpansion>
+
+                                        <p:column headerText="#{msg.template} Id">
+                                            #{messageTemplate.templateId}
+                                        </p:column>
+
+                                        <p:column headerText="#{msg.template} Name">
+                                            #{messageTemplate.templateName}
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

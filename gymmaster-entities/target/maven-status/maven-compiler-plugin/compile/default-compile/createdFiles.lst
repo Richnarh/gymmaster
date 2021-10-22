@@ -1,0 +1,11 @@
+com\khoders\gymmaster\enums\SMSType.class
+com\khoders\gymmaster\enums\MessagingType.class
+com\khoders\gymmaster\entities\UserAccountRecord.class
+com\khoders\gymmaster\entities\sms\SMSGrup.class
+com\khoders\gymmaster\entities\sms\SenderId.class
+com\khoders\gymmaster\entities\sms\Sms.class
+com\khoders\gymmaster\entities\UserAccount.class
+com\khoders\gymmaster\entities\sms\GroupContact.class
+com\khoders\gymmaster\entities\sms\MessageTemplate.class
+com\khoders\gymmaster\entities\Customer.class
+com\khoders\gymmaster\entities\CustomerRegistration.class
