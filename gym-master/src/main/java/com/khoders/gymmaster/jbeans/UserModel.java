@@ -11,15 +11,15 @@ package com.khoders.gymmaster.jbeans;
  * @author khoders
  */
 public class UserModel {
-    private String userEmail;
+    private String phoneNumber;
     private String password;
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {

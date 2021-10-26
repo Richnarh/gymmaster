@@ -29,7 +29,7 @@ public class UserAccountService
         {
             String qryString = "SELECT e FROM UserAccount e WHERE e.phoneNumber=?1 AND e.password=?2";
             TypedQuery<UserAccount> typedQuery = crudApi.getEm().createQuery(qryString, UserAccount.class)
-                    .setParameter(1, userModel.getUserEmail())
+                    .setParameter(1, userModel.getPhoneNumber())
                     .setParameter(2, hashText(userModel.getPassword()));
             
                  return typedQuery.getResultStream().findFirst().orElse(null);

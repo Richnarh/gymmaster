@@ -7,5 +7,4 @@ com\khoders\gymmaster\entities\sms\Sms.class
 com\khoders\gymmaster\entities\UserAccount.class
 com\khoders\gymmaster\entities\sms\GroupContact.class
 com\khoders\gymmaster\entities\sms\MessageTemplate.class
-com\khoders\gymmaster\entities\Customer.class
 com\khoders\gymmaster\entities\CustomerRegistration.class

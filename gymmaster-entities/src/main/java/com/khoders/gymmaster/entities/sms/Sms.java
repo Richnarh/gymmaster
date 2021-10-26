@@ -5,7 +5,7 @@
  */
 package com.khoders.gymmaster.entities.sms;
 
-import com.khoders.gymmaster.entities.Customer;
+import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.UserAccountRecord;
 import com.khoders.gymmaster.enums.SMSType;
 import com.khoders.resource.utilities.SystemUtils;
@@ -48,9 +48,9 @@ public class Sms extends UserAccountRecord implements Serializable
     @Lob
     private String message;
     
-    @JoinColumn(name = "customer", referencedColumnName = "id")
+    @JoinColumn(name = "customer_registration", referencedColumnName = "id")
     @ManyToOne
-    private Customer customer;
+    private CustomerRegistration customerRegistration;
     
     @JoinColumn(name = "sender_id", referencedColumnName = "id")
     @ManyToOne
@@ -126,16 +126,14 @@ public class Sms extends UserAccountRecord implements Serializable
         this.sMSType = sMSType;
     }
 
-    public Customer getCustomer()
-    {
-        return customer;
+    public CustomerRegistration getCustomerRegistration() {
+        return customerRegistration;
     }
 
-    public void setCustomer(Customer customer)
-    {
-        this.customer = customer;
+    public void setCustomerRegistration(CustomerRegistration customerRegistration) {
+        this.customerRegistration = customerRegistration;
     }
-        
+    
     public void genCode()
     {
         if (getSmsId()!= null)

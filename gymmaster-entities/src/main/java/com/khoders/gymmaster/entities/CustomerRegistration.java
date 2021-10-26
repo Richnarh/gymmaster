@@ -50,6 +50,9 @@ public class CustomerRegistration extends UserAccountRecord
     @Column(name = "description")
     @Lob
     private String description;
+    
+    @Column(name = "sent_sms")
+    private boolean sentSms=false;
 
     public String getRefNo()
     {
@@ -140,6 +143,19 @@ public class CustomerRegistration extends UserAccountRecord
     {
         this.description = description;
     }
+
+    public boolean isSentSms() {
+        return sentSms;
+    }
+
+    public void setSentSms(boolean sentSms) {
+        this.sentSms = sentSms;
+    }
+
+    @Override
+    public String toString() {
+        return customerName+"-"+phoneNumber;
+    }
     
     public void genCode()
     {
@@ -151,5 +167,6 @@ public class CustomerRegistration extends UserAccountRecord
             setRefNo(SystemUtils.generateCode());
         }
     }
+    
     
 }

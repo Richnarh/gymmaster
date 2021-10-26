@@ -5,9 +5,9 @@
  */
 package com.khoders.gymmaster.commons;
 
-import com.khoders.gymmaster.entities.Customer;
 import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.sms.MessageTemplate;
+import com.khoders.gymmaster.entities.sms.SMSGrup;
 import com.khoders.gymmaster.entities.sms.SenderId;
 import com.khoders.gymmaster.services.SmsService;
 import com.khoders.resource.jpa.CrudApi;
@@ -21,7 +21,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author richa
+ * @author richard
  */
 @Named(value = "usercommonBeans")
 @SessionScoped
@@ -33,10 +33,12 @@ public class UsercommonBeans implements Serializable
     private List<CustomerRegistration> customerRegistrationList = new LinkedList<>();
     private List<SenderId> senderIdList = new LinkedList<>();
     private List<MessageTemplate> messageTemplateList = new LinkedList<>();
+    private List<SMSGrup> smsGroupList = new LinkedList<>();
     
     @PostConstruct
     public void init()
     {
+        smsGroupList = smsService.getGroupList();
        customerRegistrationList = smsService.getContactList();
        senderIdList = smsService.getSenderIdList();
        messageTemplateList = smsService.getMessageTemplateList();
@@ -55,6 +57,10 @@ public class UsercommonBeans implements Serializable
     public List<MessageTemplate> getMessageTemplateList()
     {
         return messageTemplateList;
+    }
+
+    public List<SMSGrup> getSmsGroupList() {
+        return smsGroupList;
     }
     
 }

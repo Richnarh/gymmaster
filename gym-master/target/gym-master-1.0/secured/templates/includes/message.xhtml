@@ -7,19 +7,19 @@
 
     <h:body>
         <h:form class="wow fadeIn">  
-            <span class="py-2">
+            <span>
                 <p:selectOneMenu value="#{smsController.selectedMessagingType}" style="width: 40%;">
                     <f:selectItem itemLabel="#{msg.choose}"/>
-                    <f:selectItems value="#{commonBeans.messagingTypeList}"/>
+                    <f:selectItems value="#{commonClass.messagingTypeList}"/>
                     <p:ajax listener="#{smsController.selectMessagingType()}" update="messaging"/>
                 </p:selectOneMenu>
 
-                <p:commandButton value="Set Active" action="#{smsController.selectMessagingType()}" ajax="false" class="kbtn-secondary ml-3"/> 
+                <p:commandButton value="Set Active" action="#{smsController.selectMessagingType()}" ajax="false" class="ml-3"/> 
             </span>
 
             <div class="pt-3" title="Select a template and send message">
                 <p:selectOneMenu rendered="#{smsController.flag}" id="messaging" value="#{smsController.selectedMessageTemplate}" filter="true" filterMatchMode="contains" style="width: 40%;">
-                    <f:selectItem itemLabel="#{msg.choose}"/>
+                    <f:selectItem itemLabel="#{msg.choose} Template"/>
                     <f:selectItems value="#{usercommonBeans.messageTemplateList}"/>
                 </p:selectOneMenu>
             </div> 

@@ -7,7 +7,6 @@ package com.khoders.gymmaster.services;
 
 import Zenoph.SMSLib.Enums.MSGTYPE;
 import Zenoph.SMSLib.ZenophSMS;
-import com.khoders.gymmaster.entities.Customer;
 import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.sms.GroupContact;
 import com.khoders.gymmaster.entities.sms.MessageTemplate;

@@ -8,7 +8,6 @@ package com.khoders.gymmaster.jbeans.controller.sms;
 import Zenoph.SMSLib.Enums.REQSTATUS;
 import static Zenoph.SMSLib.Enums.REQSTATUS.ERR_INSUFF_CREDIT;
 import Zenoph.SMSLib.ZenophSMS;
-import com.khoders.gymmaster.entities.Customer;
 import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.sms.GroupContact;
 import com.khoders.gymmaster.entities.sms.MessageTemplate;
@@ -46,9 +45,10 @@ public class SmsController implements Serializable
     @Inject private AppSession appSession;
     @Inject private SmsService smsService;
     @Inject private CustomerService customerService;
+    
+    private CustomerRegistration selectedCustomer;
 
     private Sms sms = new Sms();
-    private Customer selectedCustomer;
     private SMSGrup smsGrup = new SMSGrup();
 
     private List<CustomerRegistration> customerRegistrationList = new LinkedList<>();
@@ -202,7 +202,7 @@ public class SmsController implements Serializable
         {
             sms.setSmsTime(LocalDateTime.now());
             sms.setMessage(textMessage);
-            sms.setCustomer(selectedCustomer);
+            sms.setCustomerRegistration(selectedCustomer);
             sms.setsMSType(SMSType.SINGLE_SMS);
             sms.setUserAccount(appSession.getCurrentUser());
            if(crudApi.save(sms) != null)
@@ -253,7 +253,7 @@ public class SmsController implements Serializable
         SystemUtils.resetJsfUI();
     }
 
-    public void manage(Customer customer)
+    public void manage(CustomerRegistration customer)
     {
         this.selectedCustomer = customer;
     }
@@ -286,16 +286,6 @@ public class SmsController implements Serializable
     public void setSenderId(SenderId senderId)
     {
         this.senderId = senderId;
-    }
-
-    public Customer getSelectedCustomer()
-    {
-        return selectedCustomer;
-    }
-
-    public void setSelectedCustomer(Customer selectedCustomer)
-    {
-        this.selectedCustomer = selectedCustomer;
     }
 
     public List<CustomerRegistration> getCustomerRegistrationList()
@@ -366,6 +356,14 @@ public class SmsController implements Serializable
     public void setSmsType(SMSType smsType)
     {
         this.smsType = smsType;
+    }
+
+    public CustomerRegistration getSelectedCustomer() {
+        return selectedCustomer;
+    }
+
+    public void setSelectedCustomer(CustomerRegistration selectedCustomer) {
+        this.selectedCustomer = selectedCustomer;
     }
 
  

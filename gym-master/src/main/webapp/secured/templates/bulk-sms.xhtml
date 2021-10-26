@@ -22,17 +22,17 @@
                                         <span class="text-link">Select Group</span>
                                         <p:selectOneMenu value="#{smsController.smsGrup}" filter="true" filterMatchMode="contains"  style="width: 100%;">
                                             <f:selectItem itemLabel="#{msg.choose}"/>
-                                            <f:selectItems value="#{userCommonClass.smsGroupList}"/>
+                                            <f:selectItems value="#{usercommonBeans.smsGroupList}"/>
                                             <p:ajax listener="#{smsController.loadContactGroup()}" update="groupContactList"/>
                                         </p:selectOneMenu>
 
                                         <p:dataTable class="pt-3" id="groupContactList" value="#{smsController.groupContactList}" var="groupContact">
                                             <p:column headerText="#{msg.client} name">
-                                                <h:outputText value="#{groupContact.client.clientName}"/>
+                                                <h:outputText value="#{groupContact.customerRegistration.customerName}"/>
                                             </p:column>
 
                                             <p:column headerText="#{msg.mobile_no}">
-                                                <h:outputText value="#{groupContact.client.phone}"/>
+                                                <h:outputText value="#{groupContact.customerRegistration.phoneNumber}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </h:form>

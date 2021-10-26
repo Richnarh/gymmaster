@@ -5,15 +5,25 @@
  */
 package com.khoders.gymmaster.jbeans.controller;
 
+import Zenoph.SMSLib.Enums.REQSTATUS;
+import Zenoph.SMSLib.ZenophSMS;
 import com.khoders.gymmaster.Pages;
+import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.UserAccount;
+import com.khoders.gymmaster.entities.sms.Sms;
+import com.khoders.gymmaster.enums.SMSType;
 import com.khoders.gymmaster.jbeans.UserModel;
 import com.khoders.gymmaster.listener.AppSession;
+import com.khoders.gymmaster.services.CustomerService;
+import com.khoders.gymmaster.services.SmsService;
 import com.khoders.gymmaster.services.UserAccountService;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.DateRangeUtil;
 import com.khoders.resource.utilities.Msg;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -31,11 +41,13 @@ public class LoginController implements Serializable
 {
     @Inject private AppSession appSession;
     @Inject private UserAccountService userAccountService;
+    @Inject private CustomerService customerService;
     
     @Inject private CrudApi crudApi;
+    @Inject private SmsService smsService;
     
     private String userEmail;
-    private String password,expiredProductLink;
+    private String password;
     
     private UserModel userModel = new UserModel();
     
@@ -47,7 +59,7 @@ public class LoginController implements Serializable
     {
         try
         {
-            userModel.setUserEmail(userEmail);
+            userModel.setPhoneNumber(userEmail);
             userModel.setPassword(password);
 
             UserAccount account = userAccountService.login(userModel);
@@ -82,6 +94,9 @@ public class LoginController implements Serializable
             appSession.login(userAccount);
             Faces.redirect(Pages.index);
 
+            // Processing expired registrations
+             expiredRegistrants();
+             
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -103,7 +118,95 @@ public class LoginController implements Serializable
         }
         return null;
     }
+    
+    public void expiredRegistrants()
+    {
+        List<CustomerRegistration> registrationList = customerService.getExpiredRegistrationList();
+        
+        for (CustomerRegistration  registration : registrationList) {
+            if(!registration.isSentSms())
+            {
+                // send sms
+                processExipredClient(registration.getPhoneNumber());
+            }
+        }
+    }
+    
+    public void processExipredClient(String clientPhone)
+    {  
+        String clientMessage = "Please be reminded that your subscription has expired on "+LocalDate.now()+". Thank you.";
+        try
+        {
+            ZenophSMS zsms = smsService.extractParams();
 
+            List<String> numbers = zsms.extractPhoneNumbers(clientPhone);
+            zsms.setMessage(password);
+
+            for (String number : numbers)
+            {
+                zsms.addRecipient(number);
+            }
+
+            zsms.setSenderId("SWEATOUTGYM");
+
+            List<String[]> response = zsms.submit();
+            for (String[] destination : response)
+            {
+                REQSTATUS reqstatus = REQSTATUS.fromInt(Integer.parseInt(destination[0]));
+                if (reqstatus == null)
+                {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("failed to send message"), null));
+                    break;
+                } else
+                {
+                    switch (reqstatus)
+                    {
+                        case SUCCESS:
+                            FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Message sent"), null));
+                                saveMessage(clientMessage);
+                            break;
+                        case ERR_INSUFF_CREDIT:
+                            FacesContext.getCurrentInstance().addMessage(null,
+                                    new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Insufficeint Credit"), null));
+                        default:
+                            FacesContext.getCurrentInstance().addMessage(null,
+                                    new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Failed to send message"), null));
+                            return;
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+            
+    }
+    
+    public void saveMessage(String clientMessage)
+    {
+        Sms sms = new Sms();
+        
+        try
+        {
+            sms.setSmsTime(LocalDateTime.now());
+            sms.setMessage(clientMessage);
+            sms.setsMSType(SMSType.BULK_SMS);
+            sms.setUserAccount(appSession.getCurrentUser());
+            if(crudApi.save(sms) != null)
+            {
+               FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("SMS sent to"), null));
+               
+               System.out.println("SMS sent and saved -- ");
+           }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
     public String getUserEmail() {
         return userEmail;
     }

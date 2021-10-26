@@ -5,6 +5,7 @@
  */
 package com.khoders.gymmaster.commons;
 
+import com.khoders.gymmaster.enums.MessagingType;
 import com.khoders.gymmaster.enums.SMSType;
 import com.khoders.resource.enums.Currency;
 import com.khoders.resource.enums.PaymentMethod;
@@ -40,5 +41,9 @@ public class CommonClass implements Serializable
     public List<SMSType> getSmsTypeList()
     {
         return Arrays.asList(SMSType.values());
+    }
+    public List<MessagingType> getMessagingTypeList()
+    {
+        return Arrays.asList(MessagingType.values());
     }
 }

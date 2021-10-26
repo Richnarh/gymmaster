@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"> 
 
     <h:body>
-        <ui:composition template="../../templatesUI.xhtml">
+        <ui:composition template="../templatesUI.xhtml">
             <ui:define name="pageTitle">
                 Group Contacts
             </ui:define>
@@ -20,25 +20,25 @@
                                 <h:form id="contactGroupForm" class="spaced-form">
                                         
                                     <div class="form-group">
-                                        <p class="text-muted">#{msg.group} Name <span class="text-danger">*</span></p>
-                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.smsGrup}" required="true" filter="true" filterMatchMode="contains">
-                                            <f:selectItem itemLabel="#{msg.choose}"/>
-                                            <f:selectItems value="#{userCommonClass.smsGroupList}"/>
-                                        </p:selectOneMenu>
-                                        
-                                        <span>
-                                            <p:commandButton class="kbtn-secondary" title="Create Group" icon="fa fa-plus" update=":groupDialog" oncomplete="PF('groupDialog').show()"/>
-                                        </span>
+                                            <p class="text-muted">#{msg.group} Name <span class="text-danger">*</span></p>
+                                        <h:panelGrid columns="3">
+                                            <p:selectOneMenu value="#{contactGroupController.contactGroup.smsGrup}" required="true" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="#{msg.choose}"/>
+                                                <f:selectItems value="#{usercommonBeans.smsGroupList}"/>
+                                            </p:selectOneMenu>
+
+                                            <p:commandButton title="Create Group" icon="fa fa-plus" update=":groupDialog" oncomplete="PF('groupDialog').show()"/>
+                                        </h:panelGrid>
                                     </div>
                                     <div class="form-group">
                                         <p class="col-form-label text-muted">#{msg.contact} <span class="text-danger">*</span></p>
-                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.client}" required="true" filter="true" filterMatchMode="contains">
+                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.customerRegistration}" required="true" filter="true" filterMatchMode="contains">
                                             <f:selectItem itemLabel="#{msg.choose}"/>
-                                            <f:selectItems value="#{userCommonClass.clientList}"/>
+                                            <f:selectItems value="#{usercommonBeans.customerRegistrationList}"/>
                                         </p:selectOneMenu>
                                     </div>
                                     <div class="pt-3">
-                                        <p:commandButton rendered="#{appSession.currentUser.permSave == true}" class="kbtn-success mr-3" value="#{contactGroupController.optionText}" update="@form, :contactGroupTable"
+                                        <p:commandButton class="kbtn-success mr-3" value="#{contactGroupController.optionText}" update="@form, :contactGroupTable"
                                                          action="#{contactGroupController.saveContactGroup()}"/>
 
                                         <p:commandButton class="kbtn-cancel" value="#{msg.clear}" immediate="true"
@@ -62,23 +62,23 @@
                                         </p:rowExpansion>
 
                                         <p:column headerText="#{msg.fullname}">
-                                            #{group.client.clientName}
+                                            #{group.customerRegistration.customerName}
                                         </p:column>
 
                                         <p:column headerText="#{msg.contact}">
-                                            #{group.client.phone}
+                                            #{group.customerRegistration.phoneNumber}
                                         </p:column>
 
                                         <p:column headerText="#{msg.group}">
                                             #{group.smsGrup.groupName}
                                         </p:column>
 
-                                        <p:column rendered="#{appSession.currentUser.permUpdate == true}" headerText="#{msg.action}" exportable="false" style="width: 80px;">
+                                        <p:column headerText="#{msg.action}" exportable="false" style="width: 80px;">
                                             <p:commandButton styleClass="kbtn-info" value="#{msg.edit}" immediate="true" update="@form, :contactGroupForm"
                                                              action="#{contactGroupController.editContactGroup(group)}"/>
                                         </p:column>
 
-                                        <p:column rendered="#{appSession.currentUser.permDelete == true}" headerText="#{msg.action}" exportable="false" style="width: 100px;">
+                                        <p:column headerText="#{msg.action}" exportable="false" style="width: 100px;">
                                             <p:commandButton styleClass="kbtn-danger" value="#{msg.delete}"  action="#{contactGroupController.deleteContactGroup(group)}" 
                                                              onclick="return confirm('#{msg.delete_message}')" update="@form"/>
                                         </p:column>

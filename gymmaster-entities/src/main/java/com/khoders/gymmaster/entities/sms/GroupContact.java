@@ -5,7 +5,7 @@
  */
 package com.khoders.gymmaster.entities.sms;
 
-import com.khoders.gymmaster.entities.Customer;
+import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.UserAccountRecord;
 import com.khoders.resource.utilities.SystemUtils;
 import java.io.Serializable;
@@ -31,10 +31,10 @@ public class GroupContact extends UserAccountRecord implements Serializable
     @ManyToOne
     private SMSGrup smsGrup;
 
-    @JoinColumn(name = "customer", referencedColumnName = "id")
+    @JoinColumn(name = "customer_registration", referencedColumnName = "id")
     @ManyToOne
-    private Customer customer;
-
+    private CustomerRegistration customerRegistration;
+    
     public String getContactGroupId()
     {
         return contactGroupId;
@@ -55,16 +55,13 @@ public class GroupContact extends UserAccountRecord implements Serializable
         this.smsGrup = smsGrup;
     }
 
-    public Customer getCustomer()
-    {
-        return customer;
+    public CustomerRegistration getCustomerRegistration() {
+        return customerRegistration;
     }
 
-    public void setCustomer(Customer customer)
-    {
-        this.customer = customer;
+    public void setCustomerRegistration(CustomerRegistration customerRegistration) {
+        this.customerRegistration = customerRegistration;
     }
-    
     
     @Override
     public String toString()

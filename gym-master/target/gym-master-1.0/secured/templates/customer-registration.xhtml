@@ -35,7 +35,7 @@
                                 <h:form id="customerRegistrationTable" class="mb-3 wow">
                                         <p:dataTable value="#{customerRegistrationController.customerRegistrationList}" reflow="true" var="customerRegistration"
                                                      paginator="true" paginatorPosition="bottom" rows="10">
-                                            <p:column exportable="false" style="width: 40px;">
+                                            <p:column exportable="false" style="width: 37px;">
                                                 <p:rowToggler/>
                                             </p:column>
 
@@ -53,17 +53,17 @@
                                                     <h:outputText value="#{customerRegistration.description}"/>
                                                 </h:panelGrid>
                                             </p:rowExpansion>
-                                            <p:column headerText="Ref. No." style="width: 160px;">
+                                            <p:column headerText="Ref. No." style="width: 120px;">
                                                 #{customerRegistration.refNo}
                                             </p:column>
                                             
-                                            <p:column headerText="Registration Date" style="width: 160px;">
+                                            <p:column headerText="Reg. Date" style="width: 140px;">
                                                 <h:outputText value="#{customerRegistration.registrationDate}">
                                                     <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
                                                 </h:outputText>
                                             </p:column>
                                             
-                                            <p:column headerText="#{msg.expiry_date}" style="width: 160px;">
+                                            <p:column headerText="#{msg.expiry_date}" style="width: 140px;">
                                                 <h:outputText value="#{customerRegistration.expiryDate}">
                                                     <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
                                                 </h:outputText>
@@ -77,17 +77,11 @@
                                                 #{customerRegistration.phoneNumber}
                                             </p:column>
 
-                                            <p:column headerText="#{msg.action}" style="width: 80px;">
-                                                <h:commandButton class="btn btn-outline-info btn-sm" value="#{msg.edit}" immediate="true" action="#{customerRegistrationController.editCustomerRegistration(customerRegistration)}">
-                                                    <p:ajax  update=":mainPanel"/>
-                                                </h:commandButton>
-                                            </p:column>
-
-                                            <p:column headerText="#{msg.action}" style="width: 100px;" >
-                                                <h:commandButton class="btn btn-danger btn-sm" value="#{msg.delete}" action="#{customerRegistrationController.deleteCustomerRegistration(customerRegistration)}" 
-                                                                 onclick="return confirm('#{msg.delete_message}')">
-                                                    <p:ajax update="@form"/>
-                                                </h:commandButton>
+                                            <p:column headerText="#{msg.action}" exportable="false" style="width: 100px;">
+                                                <p:menuButton value="#{msg.choose}">
+                                                    <p:menuitem icon="fa fa-edit" class="text-info" value="#{msg.edit}" immediate="true" update=":mainPanel" action="#{customerRegistrationController.editCustomerRegistration(customerRegistration)}"/>
+                                                    <p:menuitem icon="fa fa-times" class="text-danger" value="#{msg.delete}" immediate="true" action="#{customerRegistrationController.deleteCustomerRegistration(customerRegistration)}" onclick="return confirm('#{msg.delete_message}')" update=":mainPanel"/>
+                                                </p:menuButton>
                                             </p:column>
                                         </p:dataTable>
                                     </h:form>

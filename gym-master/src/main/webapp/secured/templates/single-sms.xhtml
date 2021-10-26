@@ -22,8 +22,8 @@
                             <div class="row">
                                 <div class="col-md-4 wow fadeIn">
                                     <h:form>
-                                        <p:commandButton class="kbtn-secondary" action="#{smsController.loadCustomers()}" update="@form" value="Reload"/>
-                                        <p:dataTable value="#{smsController.customerRegistrationList}" var="contact" scrollable="true" scrollHeight="250">
+                                        <p:commandButton action="#{smsController.loadCustomers()}" update="@form" value="Reload"/>
+                                        <p:dataTable class="pt-2" value="#{smsController.customerRegistrationList}" var="contact" scrollable="true" scrollHeight="250">
                                             <p:column headerText="#{msg.customer}" filterBy="#{contact.customerName}" filterMatchMode="contains">
                                                 <h:outputText value="#{contact.customerName}"/>
                                             </p:column>
