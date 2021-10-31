@@ -35,7 +35,7 @@ public class CustomerRegistration extends UserAccountRecord
     private String phoneNumber;
     
     @Column(name = "registration_date")
-    private LocalDate registrationDate = LocalDate.now();
+    private LocalDate registrationDate;
     
     @Column(name = "expiry_date")
     private LocalDate expiryDate;

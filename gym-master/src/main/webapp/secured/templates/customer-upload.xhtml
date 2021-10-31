@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Customer Data Upload
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card callout-info">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fa fa-upload"></i>
+                                    Customer Upload
+                                </h3>
+                            </div>
+
+                            <h:form enctype="multipart/form-data">
+                                <h:panelGrid columns="3">
+                                    <p:fileUpload class="pl-2 pt-2" value="#{customerUploadController.file}" mode="simple" skinSimple="true" required="true"/>
+                                    <p:commandButton class="kbtn-default" action="#{customerUploadController.uploadCustomers()}" ajax="false" value="Upload Customers"/>
+                                    
+                                </h:panelGrid>
+                            </h:form>
+                            
+                            <div class="container-fluid pt-2">
+                                 <div class="card card-primary card-outline card-outline-tabs wow fadeIn">
+                                <div class="card-header p-0 border-bottom-0">
+                                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Successful Uploads (#{customerUploadController.successRegistrationList.size()})</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Failed Uploads (#{customerUploadController.failedRegistrationList.size()})</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-four-tabContent">
+                                    <div class="tab-pane fade active show" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                                    <h5 class="pl-1 field-shade col-2">Count: #{customerUploadController.successRegistrationList.size()}</h5>
+                                  
+                                    <h:form id="orderTable">
+                                            <p:dataTable value="#{customerUploadController.successRegistrationList}" var="customer" scrollable="true" scrollHeight="500">
+                                                <p:column exportable="false" style="width: 37px;">
+                                                    <p:rowToggler/>
+                                                </p:column>
+
+                                                <p:rowExpansion>
+                                                    <h:panelGrid columns="2">
+                                                        <span>#{msg.received}</span>
+                                                        <h:outputText value="#{customer.createdDate}">
+                                                            <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
+                                                        </h:outputText>
+
+                                                        <span>#{msg.description}</span>
+                                                        <h:outputText value="#{customer.description}"/>
+
+                                                        <span>#{msg.email_ddress}</span>
+                                                        <h:outputText value="#{customer.email}"/>
+
+                                                    </h:panelGrid>
+                                                </p:rowExpansion>
+
+                                                <p:column headerText="Customer Name">
+                                                    <h:outputText value="#{customer.customerName}" style="width: 140px"/>
+                                                </p:column>
+
+                                                <p:column headerText="Phone Number">
+                                                    <h:outputText value="#{customer.phoneNumber}" style="width: 140px"/>
+                                                </p:column>
+
+                                                <p:column headerText="Reg. Date" class="text-right">
+                                                    <h:outputText value="#{customer.registrationDate}">
+                                                        <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:column headerText="Expiry Date" class="text-right">
+                                                    <h:outputText value="#{customer.expiryDate}">
+                                                        <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:column headerText="Amount Paid" class="text-right">
+                                                    <h:outputText value="#{customer.amountPaid}">
+                                                        <f:convertNumber pattern="#{msg.money_pattern}"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:column headerText="Payment Status">
+                                                    <h:outputText value="#{customer.paymentStatus}"/>
+                                                </p:column>
+
+                                            </p:dataTable>
+
+                                            <div class="p-2">
+                                                <h:commandButton class="btn btn-success pr-3 btn-sm" value="Save Changes" action="#{customerUploadController.saveUpload()}"/>
+
+                                                <h:commandButton class="btn btn-light btn-sm ml-2" value="#{msg.clear}" action="#{customerUploadController.clear()}"/>
+
+                                            </div>
+                                        </h:form>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                                        <p class="alert alert-info">
+                                            <i class="fa fa-info"></i>
+                                            Excel date format should be <b>dd/mm/yyyy</b>, 
+                                            other format may fail to upload, do examine failed data after export
+                                            and upload again.
+                                        </p>
+                                        <h:form>
+                                            <h:commandButton class="btn btn-sm btn-light" value="Export to Excel" rendered="#{!empty customerUploadController.failedRegistrationList}">
+                                                <p:dataExporter target=":failedForm:failedTable" type="xlsx" fileName="failed-uploads"/>
+                                           </h:commandButton>
+                                        </h:form>
+                                        <h5 class="pl-1 field-shade col-2">Count: #{customerUploadController.failedRegistrationList.size()}</h5>
+                                        <h:form id="failedForm">
+                                            <p:dataTable id="failedTable" value="#{customerUploadController.failedRegistrationList}" var="customer">
+                                               
+                                                <p:column headerText="Customer Name">
+                                                    <h:outputText value="#{customer.customerName}" style="width: 140px"/>
+                                                </p:column>
+
+                                                <p:column headerText="Phone Number">
+                                                    <h:outputText value="#{customer.phoneNumber}" style="width: 140px"/>
+                                                </p:column>
+
+                                                <p:column headerText="Reg. Date">
+                                                    <h:outputText value="#{customer.registrationDate}">
+                                                        <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:column headerText="Expiry Date">
+                                                    <h:outputText value="#{customer.expiryDate}">
+                                                        <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="#{msg.email_ddress}">
+                                                    <h:outputText value="#{customer.email}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Amount Paid" class="text-right">
+                                                    <h:outputText value="#{customer.amountPaid}">
+                                                        <f:convertNumber pattern="#{msg.money_pattern}"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:column headerText="Payment Status">
+                                                    <h:outputText value="#{customer.paymentStatus}"/>
+                                                </p:column>
+
+                                            </p:dataTable>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

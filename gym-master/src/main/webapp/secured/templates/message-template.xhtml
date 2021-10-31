@@ -13,7 +13,7 @@
                 Message Template
             </ui:define>
             <ui:define name="pageContent">
-                <div class="card wow zoomInDown">
+                <div class="card wow zoomIn">
                     <div class="card-header">Create #{msg.message_template}</div>
                     <div class="card-body">
                         <div class="row">
@@ -46,7 +46,7 @@
 
                             <div class="col-md-6">
                                 <h:form id="messageTemplateTable">
-                                    <p:dataTable value="#{messageTemplateController.messageTemplateList}" var="messageTemplate">
+                                    <p:dataTable value="#{messageTemplateController.messageTemplateList}" var="messageTemplate" scrollable="true" scrollHeight="560">
                                         <p:column class="row-toggler">
                                             <p:rowToggler/>
                                         </p:column>

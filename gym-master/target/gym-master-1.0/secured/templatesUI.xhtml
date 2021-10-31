@@ -39,7 +39,7 @@
                 <a href="#{application.contextPath}/secured/index.xhtml" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="#{application.contextPath}/#{msg.main_menu_url}/customer-registration.xhtml" class="nav-link">New Customer</a>
+                <a href="#{application.contextPath}/#{msg.main_menu_url}/customer-registration.xhtml" class="nav-link">Customer</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="#{application.contextPath}/#{msg.main_menu_url}/single-sms.xhtml" class="nav-link">#{msg.sms}</a>
@@ -71,8 +71,8 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fa fa-paw"></i>
-                    <span>Pascal<i class="fa fa-angle-down"></i></span>
+                    <i class="fa fa-user"></i>
+                    <span>#{appSession.currentUser.phoneNumber}<i class="fa fa-angle-down"></i></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-item dropdown-header">Profile Activity</span>
@@ -83,7 +83,7 @@
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#{application.contextPath}/secured/templates/update-password.xhtml" class="dropdown-item">
-                        <i class="fa fa-users mr-2"></i> Update Password
+                        <i class="fa fa-key mr-2"></i> Update Password
                         <span class="float-right text-muted text-sm"></span>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -92,7 +92,7 @@
                                        action="#{loginController.doLogout()}"/>
                     </h:form>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">Pascal</a>
+                    <a href="#" class="dropdown-item dropdown-footer">#{appSession.currentUser.fullname}</a>
                 </div>
             </li>
         </ul>

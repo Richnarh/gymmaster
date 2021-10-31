@@ -8,9 +8,14 @@ and open the template in the editor.
     Author     : richa
 */
 
-body {
+.body {
   /*background-color: #f45b69;*/
-  background-color: #e9ecef;
+  background-image: url("../img/s1.jpg");
+  /*background-color: #e9ecef;*/
+  background-attachment: fixed;
+  background-position: 60%;
+  background-repeat: no-repeat;
+  background-origin: content-box;
   font-family: "Asap", sans-serif;
 }
 

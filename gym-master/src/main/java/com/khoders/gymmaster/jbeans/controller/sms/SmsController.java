@@ -5,6 +5,7 @@
  */
 package com.khoders.gymmaster.jbeans.controller.sms;
 
+import Zenoph.SMSLib.Enums.MSGTYPE;
 import Zenoph.SMSLib.Enums.REQSTATUS;
 import static Zenoph.SMSLib.Enums.REQSTATUS.ERR_INSUFF_CREDIT;
 import Zenoph.SMSLib.ZenophSMS;
@@ -173,7 +174,7 @@ public class SmsController implements Serializable
                         switch (reqstatus)
                         {
                             case SUCCESS:
-                                saveMessage();
+                                saveMessage(zsms.getMessage());
                                 break;
                             case ERR_INSUFF_CREDIT:
                                 FacesContext.getCurrentInstance().addMessage(null,
@@ -195,13 +196,111 @@ public class SmsController implements Serializable
             e.printStackTrace();
         }
     }
+    
+    public void processBulkMessage()
+    {
+        if (groupContactList.isEmpty())
+        {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Please load contacts"), null));
+            return;
+        }
+        
+        if (sms.getSenderId() == null)
+        {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Please set sender ID"), null));
+            return;
+        }
 
-    public void saveMessage()
+        try
+        {
+            if (smsService.isInternetAccessVailable() == true)
+            {
+                clearSMS();
+                
+                ZenophSMS zsms = smsService.extractParams();
+                zsms.authenticate();
+
+               // set message parameters.
+                if (selectedMessagingType == MessagingType.TEMPLATE_MESSAGING)
+                {
+                    zsms.setMessage(selectedMessageTemplate.getTemplateText());
+                    
+                    System.out.println("TEMPLATE_MESSAGING -- " + selectedMessageTemplate.getTemplateText());
+                } else
+                {
+                    if(textMessage.isEmpty())
+                    {
+                         FacesContext.getCurrentInstance().addMessage(null,
+                                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Please type a message"), null));
+                        
+                        return;
+                    }
+                    zsms.setMessage(textMessage);
+                }
+                
+                String phoneNumber = null;
+                
+                for (GroupContact groupContact : groupContactList)
+                {
+                    phoneNumber = groupContact.getCustomerRegistration().getPhoneNumber();
+                    
+                    List<String> numbers = zsms.extractPhoneNumbers(phoneNumber);
+
+                    for (String number : numbers)
+                    {
+                        zsms.addRecipient(number);
+                    }
+                }
+                
+                zsms.setSenderId(sms.getSenderId().getSenderId());
+                zsms.setMessageType(MSGTYPE.TEXT);
+
+                List<String[]> response = zsms.submit();
+                for (String[] destination : response)
+                {
+                    REQSTATUS reqstatus = REQSTATUS.fromInt(Integer.parseInt(destination[0]));
+                    if (reqstatus == null)
+                    {
+                        FacesContext.getCurrentInstance().addMessage(null,
+                                new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("failed to send message"), null));
+                        break;
+                    }
+                    else
+                    {
+                        switch (reqstatus)
+                        {
+                            case SUCCESS:
+                                saveBulkMessage(zsms.getMessage());
+                                break;
+                            case ERR_INSUFF_CREDIT:
+                                FacesContext.getCurrentInstance().addMessage(null,
+                                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Insufficeint Credit"), null));
+                            default:
+                                FacesContext.getCurrentInstance().addMessage(null,
+                                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Failed to send message"), null));
+                                return;
+                        }
+                    }
+                }
+
+            } else
+            {
+                System.out.println("---------Connection not Available ----");
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } 
+    }
+
+    public void saveMessage(String smsMessage)
     {
         try
         {
             sms.setSmsTime(LocalDateTime.now());
-            sms.setMessage(textMessage);
+            sms.setMessage(smsMessage);
             sms.setCustomerRegistration(selectedCustomer);
             sms.setsMSType(SMSType.SINGLE_SMS);
             sms.setUserAccount(appSession.getCurrentUser());
@@ -217,7 +316,33 @@ public class SmsController implements Serializable
             e.printStackTrace();
         }
     }
-       
+   
+   public void saveBulkMessage(String smsMessage)
+   {
+      try
+        {
+            for (GroupContact groupContact : groupContactList)
+            {
+                sms.genCode();
+                sms.setSmsTime(LocalDateTime.now());
+                sms.setMessage(smsMessage);
+                sms.setCustomerRegistration(groupContact.getCustomerRegistration());
+                sms.setsMSType(SMSType.BULK_SMS);
+                sms.setUserAccount(appSession.getCurrentUser());
+                
+                if (crudApi.save(sms) != null)
+                {
+                    System.out.println("SMS sent and saved -- ");
+                }  
+            }
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("SMS sending successful!"), null));
+               
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }  
+   }
 
     public void loadContactGroup()
     {

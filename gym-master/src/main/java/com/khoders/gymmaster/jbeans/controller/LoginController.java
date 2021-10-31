@@ -95,7 +95,7 @@ public class LoginController implements Serializable
             Faces.redirect(Pages.index);
 
             // Processing expired registrations
-             expiredRegistrants();
+//             expiredRegistrants();
              
         } catch (Exception e)
         {

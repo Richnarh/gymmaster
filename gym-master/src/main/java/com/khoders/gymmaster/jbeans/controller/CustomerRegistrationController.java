@@ -48,6 +48,15 @@ public class CustomerRegistrationController implements Serializable{
         clearCustomerRegistration();
     }
     
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+     public void delete() {
+        addMessage("Confirmed", "Record deleted");
+    }
+     
     public void initRegistration()
     {
         clearCustomerRegistration();

@@ -16,12 +16,14 @@
                     <div class="card-header">Message History</div>
                     <div class="card-body">
                         <h:form class="spaced-form">
-                            <p:selectOneMenu value="#{smsController.smsType}">
-                                <f:selectItem itemLabel="#{msg.choose}"/>
-                                <f:selectItems value="#{commonClass.smsTypeList}"/>
-                            </p:selectOneMenu>
+                            <h:panelGrid columns="2">
+                                <p:selectOneMenu value="#{smsController.smsType}">
+                                    <f:selectItem itemLabel="#{msg.choose}"/>
+                                    <f:selectItems value="#{commonClass.smsTypeList}"/>
+                                </p:selectOneMenu>
 
-                            <p:commandButton class="mx-2" value="Load" action="#{smsController.loadSmslog()}" update=":smsLogTable"/> 
+                                <p:commandButton class="mx-2" value="Load" action="#{smsController.loadSmslog()}" update=":smsLogTable"/> 
+                            </h:panelGrid>
                         </h:form>
                         <div class="row pt-2">
                             <div class="col-md-12">
@@ -48,7 +50,7 @@
                                         </p:column>
 
                                         <p:column headerText="#{msg.customer}">
-                                            #{sms.customer.customerName} - #{sms.customer.phone}
+                                            #{sms.customerRegistration.customerName} - #{sms.customerRegistration.phoneNumber}
                                         </p:column>
 
                                         <p:column headerText="Message">

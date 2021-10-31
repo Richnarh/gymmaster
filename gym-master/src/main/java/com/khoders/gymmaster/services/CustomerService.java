@@ -28,7 +28,7 @@ public class CustomerService
     {
        try
         {
-            String qryString = "SELECT e FROM CustomerRegistration e WHERE e.userAccount=?1";
+            String qryString = "SELECT e FROM CustomerRegistration e WHERE e.userAccount=?1 ORDER BY e.createdDate DESC";
             TypedQuery<CustomerRegistration> typedQuery = crudApi.getEm().createQuery(qryString, CustomerRegistration.class);
                                 typedQuery.setParameter(1, appSession.getCurrentUser());
                             return typedQuery.getResultList();
@@ -48,7 +48,7 @@ public class CustomerService
             String qryString = "SELECT e FROM CustomerRegistration e WHERE e.userAccount=?1 AND e.expiryDate <= ?2";
             TypedQuery<CustomerRegistration> typedQuery = crudApi.getEm().createQuery(qryString, CustomerRegistration.class);
                                 typedQuery.setParameter(1, appSession.getCurrentUser());
-                                typedQuery.setParameter(1, LocalDate.now());
+                                typedQuery.setParameter(2, LocalDate.now());
                             return typedQuery.getResultList();
             
         } catch (Exception e)
