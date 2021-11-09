@@ -8,11 +8,13 @@ package com.khoders.gymmaster.services;
 import Zenoph.SMSLib.Enums.MSGTYPE;
 import Zenoph.SMSLib.ZenophSMS;
 import com.khoders.gymmaster.entities.CustomerRegistration;
+import com.khoders.gymmaster.entities.UserAccount;
 import com.khoders.gymmaster.entities.sms.GroupContact;
 import com.khoders.gymmaster.entities.sms.MessageTemplate;
 import com.khoders.gymmaster.entities.sms.SMSGrup;
 import com.khoders.gymmaster.entities.sms.SenderId;
 import com.khoders.gymmaster.entities.sms.Sms;
+import com.khoders.gymmaster.enums.SMSType;
 import com.khoders.gymmaster.jbeans.SmsAccess;
 import com.khoders.gymmaster.listener.AppSession;
 import com.khoders.resource.jpa.CrudApi;
@@ -97,13 +99,28 @@ public class SmsService
         return Collections.emptyList();
     }
   
-    public List<Sms> loadSmslogList()
+    public List<Sms> smsList()
     {
         try
         {
             String qryString = "SELECT e FROM Sms e WHERE e.userAccount=?1 ORDER BY e.smsTime DESC";
             TypedQuery<Sms> typedQuery = crudApi.getEm().createQuery(qryString, Sms.class);
                             typedQuery.setParameter(1, appSession.getCurrentUser());
+                            return typedQuery.getResultList();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+    public List<Sms> loadSmslogList(SMSType sMSType)
+    {
+        try
+        {
+            String qryString = "SELECT e FROM Sms e WHERE e.userAccount=?1 AND e.sMSType=?2 ORDER BY e.smsTime DESC";
+            TypedQuery<Sms> typedQuery = crudApi.getEm().createQuery(qryString, Sms.class);
+                            typedQuery.setParameter(1, appSession.getCurrentUser());
+                            typedQuery.setParameter(2, sMSType);
                             return typedQuery.getResultList();
         } catch (Exception e)
         {
@@ -165,6 +182,22 @@ public class SmsService
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+    
+    public Sms getCustomer(CustomerRegistration customerRegistration)
+    {
+        try
+        {
+            String qryString = "SELECT e FROM Sms e WHERE e.customerRegistration=?1";
+            TypedQuery<Sms> typedQuery = crudApi.getEm().createQuery(qryString, Sms.class)
+                    .setParameter(1, customerRegistration);
+            
+                 return typedQuery.getResultStream().findFirst().orElse(null);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
     
     public ZenophSMS extractParams()

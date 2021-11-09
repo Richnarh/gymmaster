@@ -24,6 +24,7 @@
                                         <h:form class="float-right pt-3" style="margin-bottom: 5px;">
 
                                             <div class="float-right">
+                                                <span>Count: #{customerRegistrationController.customerRegistrationList.size()}</span>
                                                 <h:commandButton value="#{msg.new} #{msg.customer}" class="btn btn-outline-primary btn-sm"
                                                                  action="#{customerRegistrationController.initRegistration()}">
                                                     <p:ajax update=":mainPanel"/>
@@ -94,7 +95,7 @@
                                     </h:form>
                             </h:panelGroup>
                             
-                            <h:panelGroup  rendered="#{customerRegistrationController.pageView.createView}">
+                            <h:panelGroup rendered="#{customerRegistrationController.pageView.createView}">
                                 <div class="col-md-6 mb-5 pt-3 mx-auto">
                                     <h:form>
                                         <div class="card-block">
@@ -168,7 +169,6 @@
                                     </h:form>
                                 </div>
                             </h:panelGroup>
-
                         </div>
                     </div>
                 </h:panelGroup>

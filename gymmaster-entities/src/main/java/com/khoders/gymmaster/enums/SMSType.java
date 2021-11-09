@@ -12,5 +12,6 @@ package com.khoders.gymmaster.enums;
 public enum SMSType
 {
     SINGLE_SMS,
-    BULK_SMS;
+    BULK_SMS,
+    SUBSCRIPTION_SMS
 }

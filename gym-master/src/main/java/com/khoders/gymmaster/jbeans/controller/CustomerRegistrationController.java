@@ -36,6 +36,7 @@ public class CustomerRegistrationController implements Serializable{
     
     private CustomerRegistration customerRegistration = new CustomerRegistration();
     private List<CustomerRegistration> customerRegistrationList =  new LinkedList<>();
+    private List<CustomerRegistration> expiredCustomerList =  new LinkedList<>();
     
     private FormView pageView = FormView.listForm();
     private String optionText;
@@ -44,6 +45,7 @@ public class CustomerRegistrationController implements Serializable{
     private void init()
     {
         customerRegistrationList = customerService.getCustomerRegistrationList();
+        expiredCustomerList = customerService.getExpiredRegistrationList();
         
         clearCustomerRegistration();
     }
@@ -164,6 +166,11 @@ public class CustomerRegistrationController implements Serializable{
     public List<CustomerRegistration> getCustomerRegistrationList()
     {
         return customerRegistrationList;
+    }
+
+    public List<CustomerRegistration> getExpiredCustomerList()
+    {
+        return expiredCustomerList;
     }
     
 }

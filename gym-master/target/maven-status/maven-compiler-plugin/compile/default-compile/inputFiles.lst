@@ -14,6 +14,7 @@ C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbe
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\controller\LoginController.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\converter\MessageTemplateConverter.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\converter\SenderIdConverter.java
+C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\controller\sms\ScheduleMessage.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\controller\sms\SmsController.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\services\UserAccountService.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\config\AppInint.java
@@ -23,3 +24,4 @@ C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbe
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\converter\CustomerRegistrationConverter.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\controller\sms\SMSGrupController.java
 C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\services\CustomerService.java
+C:\khoders\java-web\gymmaster\gym-master\src\main\java\com\khoders\gymmaster\jbeans\controller\ScheduleTimer.java

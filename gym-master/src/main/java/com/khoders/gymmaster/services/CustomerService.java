@@ -7,9 +7,11 @@ package com.khoders.gymmaster.services;
 import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.listener.AppSession;
 import com.khoders.resource.jpa.CrudApi;
+import com.khoders.resource.utilities.DateUtil;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
@@ -45,10 +47,11 @@ public class CustomerService
     {
        try
         {
-            String qryString = "SELECT e FROM CustomerRegistration e WHERE e.userAccount=?1 AND e.expiryDate <= ?2";
+            String qryString = "SELECT e FROM CustomerRegistration e WHERE e.userAccount=?1 AND e.expiryDate <= ?2 AND e.sentSms=?3";
             TypedQuery<CustomerRegistration> typedQuery = crudApi.getEm().createQuery(qryString, CustomerRegistration.class);
                                 typedQuery.setParameter(1, appSession.getCurrentUser());
                                 typedQuery.setParameter(2, LocalDate.now());
+                                typedQuery.setParameter(3, false);
                             return typedQuery.getResultList();
             
         } catch (Exception e)
@@ -59,4 +62,40 @@ public class CustomerService
         return Collections.emptyList();
     }
     
+    public CustomerRegistration expiredSubscription()
+    {
+        try
+        {
+            String qryString = "SELECT e FROM CustomerRegistration e WHERE e.expiryDate <= ?1 AND e.sentSms=?2";
+            TypedQuery<CustomerRegistration> typedQuery = crudApi.getEm().createQuery(qryString, CustomerRegistration.class);
+                                typedQuery.setParameter(1, LocalDate.now());
+                                typedQuery.setParameter(2, false);
+                            return typedQuery.getResultStream().findFirst().orElse(null);
+            
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public CustomerRegistration expiringSubscription()
+    {
+        try
+        {
+            System.out.println("Next week date => "+DateUtil.nextWeekDate());
+            String qryString = "SELECT e FROM CustomerRegistration e WHERE e.expiryDate < ?1 AND e.sentSms=?2";
+            TypedQuery<CustomerRegistration> typedQuery = crudApi.getEm().createQuery(qryString, CustomerRegistration.class);
+                                typedQuery.setParameter(1, DateUtil.nextWeekDate());
+                                typedQuery.setParameter(2, false);
+                            return typedQuery.getResultStream().findFirst().orElse(null);
+            
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

@@ -5,7 +5,6 @@
  */
 package com.khoders.gymmaster.jbeans.controller.sms;
 
-import Zenoph.SMSLib.Enums.MSGTYPE;
 import Zenoph.SMSLib.Enums.REQSTATUS;
 import static Zenoph.SMSLib.Enums.REQSTATUS.ERR_INSUFF_CREDIT;
 import Zenoph.SMSLib.ZenophSMS;
@@ -54,6 +53,7 @@ public class SmsController implements Serializable
 
     private List<CustomerRegistration> customerRegistrationList = new LinkedList<>();
     private List<Sms> smsList = new LinkedList<>();
+    private List<Sms> smsSizeList = new LinkedList<>();
     
      private List<GroupContact> groupContactList = new LinkedList<>();
 
@@ -72,13 +72,13 @@ public class SmsController implements Serializable
     {
         customerRegistrationList = smsService.getContactList();
         loadSmslog();
-        getConnection();
         
+        smsSizeList = smsService.smsList();
     }
     
     public void loadSmslog()
     {
-        smsList =smsService.loadSmslogList();
+        smsList =smsService.loadSmslogList(smsType);
     }
     
     public void loadCustomers()
@@ -241,9 +241,11 @@ public class SmsController implements Serializable
                 }
                 
                 String phoneNumber = null;
+                GroupContact gc=null;
                 
                 for (GroupContact groupContact : groupContactList)
                 {
+                    gc = groupContact;
                     phoneNumber = groupContact.getCustomerRegistration().getPhoneNumber();
                     
                     List<String> numbers = zsms.extractPhoneNumbers(phoneNumber);
@@ -255,7 +257,6 @@ public class SmsController implements Serializable
                 }
                 
                 zsms.setSenderId(sms.getSenderId().getSenderId());
-                zsms.setMessageType(MSGTYPE.TEXT);
 
                 List<String[]> response = zsms.submit();
                 for (String[] destination : response)
@@ -272,7 +273,10 @@ public class SmsController implements Serializable
                         switch (reqstatus)
                         {
                             case SUCCESS:
-                                saveBulkMessage(zsms.getMessage());
+                                saveBulkMessage(zsms.getMessage(), gc);
+                                
+                                 FacesContext.getCurrentInstance().addMessage(null,
+                                new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Sending Bulk Message successful!"), null));
                                 break;
                             case ERR_INSUFF_CREDIT:
                                 FacesContext.getCurrentInstance().addMessage(null,
@@ -317,12 +321,10 @@ public class SmsController implements Serializable
         }
     }
    
-   public void saveBulkMessage(String smsMessage)
+   public void saveBulkMessage(String smsMessage, GroupContact groupContact)
    {
       try
         {
-            for (GroupContact groupContact : groupContactList)
-            {
                 sms.genCode();
                 sms.setSmsTime(LocalDateTime.now());
                 sms.setMessage(smsMessage);
@@ -334,10 +336,7 @@ public class SmsController implements Serializable
                 {
                     System.out.println("SMS sent and saved -- ");
                 }  
-            }
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("SMS sending successful!"), null));
-               
+           
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -489,6 +488,11 @@ public class SmsController implements Serializable
 
     public void setSelectedCustomer(CustomerRegistration selectedCustomer) {
         this.selectedCustomer = selectedCustomer;
+    }
+
+    public List<Sms> getSmsSizeList()
+    {
+        return smsSizeList;
     }
 
  

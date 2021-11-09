@@ -7,27 +7,27 @@
 
     <h:body>
         <h:form class="wow fadeIn">  
-            <span class="py-2">
-                <p:selectOneMenu value="#{smsController.selectedMessagingType}" style="width: 40%;">
+            <h:panelGrid columns="2">
+                <p:selectOneMenu value="#{smsController.selectedMessagingType}">
                     <f:selectItem itemLabel="#{msg.choose}"/>
                     <f:selectItems value="#{commonClass.messagingTypeList}"/>
                     <p:ajax listener="#{smsController.selectMessagingType()}" update="messaging"/>
                 </p:selectOneMenu>
 
-                <p:commandButton value="Set Active" action="#{smsController.selectMessagingType()}" ajax="false" class="kbtn-secondary ml-3"/> 
-            </span>
+                <p:commandButton value="Set Active" action="#{smsController.selectMessagingType()}" ajax="false" class="ml-3"/> 
+            </h:panelGrid>
 
             <div class="pt-3" title="Select a template and send message">
                 <p:selectOneMenu rendered="#{smsController.flag}" id="messaging" value="#{smsController.selectedMessageTemplate}" filter="true" filterMatchMode="contains" style="width: 40%;">
-                    <f:selectItem itemLabel="#{msg.choose}"/>
-                    <f:selectItems value="#{userCommonClass.messageTemplateList}"/>
+                    <f:selectItem itemLabel="#{msg.choose} Template"/>
+                    <f:selectItems value="#{usercommonBeans.messageTemplateList}"/>
                 </p:selectOneMenu>
             </div> 
-            
+
             <p:inputTextarea class="col-md-12 shadow-sm" rows="7" rendered="#{!smsController.flag}" value="#{smsController.textMessage}" placeholder="Type message."/>
 
             <div class="py-3">
-                <p:commandButton rendered="#{appSession.currentUser.permSendSMS == true}" value="Send Message" action="#{smsController.processBulkMessage()}" update="@form" class="kbtn-success mr-3"/>
+                <p:commandButton value="Send Message" action="#{smsController.processBulkMessage()}" ajax="false" class="kbtn-success mr-3"/>
                 <p:commandButton value="#{msg.clear}" action="#{smsController.clearSMS()}" update="@form" immediate="true" class="kbtn-cancel"/>
             </div>
         </h:form>

@@ -27,7 +27,7 @@
             <p:inputTextarea class="col-md-12 shadow-sm" rows="7" rendered="#{!smsController.flag}" value="#{smsController.textMessage}" placeholder="Type message."/>
 
             <div class="py-3">
-                <p:commandButton value="Send Message" action="#{smsController.processBulkMessage()}" ajax="false" class="kbtn-success mr-3"/>
+                <p:commandButton value="Send Message" action="#{smsController.processMessage()}" ajax="false" class="kbtn-success mr-3"/>
                 <p:commandButton value="#{msg.clear}" action="#{smsController.clearSMS()}" update="@form" immediate="true" class="kbtn-cancel"/>
             </div>
         </h:form>

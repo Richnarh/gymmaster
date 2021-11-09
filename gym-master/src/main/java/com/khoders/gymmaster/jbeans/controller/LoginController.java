@@ -19,6 +19,7 @@ import com.khoders.gymmaster.services.SmsService;
 import com.khoders.gymmaster.services.UserAccountService;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.DateRangeUtil;
+import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Msg;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -52,8 +53,6 @@ public class LoginController implements Serializable
     private UserModel userModel = new UserModel();
     
     private final DateRangeUtil dateRange = new DateRangeUtil();
-    
-   
     
     public String doLogin()
     {
@@ -120,28 +119,24 @@ public class LoginController implements Serializable
     }
     
     public void expiredRegistrants()
-    {
-        List<CustomerRegistration> registrationList = customerService.getExpiredRegistrationList();
-        
-        for (CustomerRegistration  registration : registrationList) {
-            if(!registration.isSentSms())
-            {
-                // send sms
-                processExipredClient(registration.getPhoneNumber());
-            }
-        }
-    }
-    
-    public void processExipredClient(String clientPhone)
     {  
-        String clientMessage = "Please be reminded that your subscription has expired on "+LocalDate.now()+". Thank you.";
+        CustomerRegistration expiredCustomer = customerService.expiredSubscription();
+     
+        System.out.println("Customer Name => "+expiredCustomer.getCustomerName());
+        System.out.println("Customer Phone Number => "+expiredCustomer.getPhoneNumber());
         try
         {
             ZenophSMS zsms = smsService.extractParams();
+            
+            LocalDate formatedDate = DateUtil.parseLocalDateWithPattern(DateUtil.parseLocalDateString(expiredCustomer.getExpiryDate(), "dd/MM/yyyy"), "dd/MM/yyyy") ;
+            
+            String clientMessage = "Hello " + expiredCustomer.getCustomerName().trim() + ", \n"
+                    + "kindly be reminded that your gym subscription has expired on " + formatedDate + "." + " \n"
+                    + "Kindly renew to have continuous access to the gym. \n" + "Thank you.";
 
-            List<String> numbers = zsms.extractPhoneNumbers(clientPhone);
-            zsms.setMessage(password);
-
+            zsms.setMessage(clientMessage);
+            
+            List<String> numbers = zsms.extractPhoneNumbers(expiredCustomer.getPhoneNumber().trim());
             for (String number : numbers)
             {
                 zsms.addRecipient(number);
@@ -149,6 +144,7 @@ public class LoginController implements Serializable
 
             zsms.setSenderId("SWEATOUTGYM");
 
+//            List<String[]> response = null;
             List<String[]> response = zsms.submit();
             for (String[] destination : response)
             {
@@ -163,9 +159,7 @@ public class LoginController implements Serializable
                     switch (reqstatus)
                     {
                         case SUCCESS:
-                            FacesContext.getCurrentInstance().addMessage(null,
-                            new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Message sent"), null));
-                                saveMessage(clientMessage);
+                            saveMessage(zsms.getMessage(),expiredCustomer);
                             break;
                         case ERR_INSUFF_CREDIT:
                             FacesContext.getCurrentInstance().addMessage(null,
@@ -184,23 +178,24 @@ public class LoginController implements Serializable
             
     }
     
-    public void saveMessage(String clientMessage)
+    public void saveMessage(String clientMessage, CustomerRegistration customerRegistration)
     {
-        Sms sms = new Sms();
-        
         try
         {
-            sms.setSmsTime(LocalDateTime.now());
-            sms.setMessage(clientMessage);
-            sms.setsMSType(SMSType.BULK_SMS);
-            sms.setUserAccount(appSession.getCurrentUser());
-            if(crudApi.save(sms) != null)
-            {
-               FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("SMS sent to"), null));
-               
-               System.out.println("SMS sent and saved -- ");
-           }
+                Sms newSms = new Sms();
+                newSms.genCode();
+                newSms.setSmsTime(LocalDateTime.now());
+                newSms.setMessage(clientMessage);
+                newSms.setsMSType(SMSType.SUBSCRIPTION_SMS);
+                newSms.setUserAccount(appSession.getCurrentUser());
+                newSms.setCustomerRegistration(customerRegistration);
+                if(crudApi.save(newSms) != null)
+                {
+                    CustomerRegistration cr = crudApi.find(CustomerRegistration.class, customerRegistration.getId());
+                    cr.setSentSms(true);
+                    crudApi.save(cr);
+                   System.out.println("SMS sent and saved -- ");
+               }
         } catch (Exception e)
         {
             e.printStackTrace();

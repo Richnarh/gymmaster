@@ -26,7 +26,7 @@
                                             <p:ajax listener="#{smsController.loadContactGroup()}" update="groupContactList"/>
                                         </p:selectOneMenu>
 
-                                        <p:dataTable class="pt-3" id="groupContactList" value="#{smsController.groupContactList}" var="groupContact">
+                                        <p:dataTable class="pt-3" id="groupContactList" value="#{smsController.groupContactList}" var="groupContact"  paginator="true" paginatorPosition="bottom" rows="12">
                                             <p:column headerText="#{msg.client} name">
                                                 <h:outputText value="#{groupContact.customerRegistration.customerName}"/>
                                             </p:column>
@@ -40,7 +40,7 @@
 
                                 <div class="col-md-8">
                                     <div class="well">
-                                        <ui:include src="includes/message.xhtml"/>
+                                        <ui:include src="includes/bulk-message.xhtml"/>
                                     </div>
                                 </div>
                             </div>

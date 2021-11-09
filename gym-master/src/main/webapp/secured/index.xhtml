@@ -18,7 +18,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Contacts</span>
                                 <span class="info-box-number">
-                                    3442
+                                    #{smsController.customerRegistrationList.size()}
                                 </span>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Messages Sent</span>
                                 <span class="info-box-number">
-                                    242
+                                    #{smsController.smsSizeList.size()}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -51,28 +51,11 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Expired Subscriptions</span>
                                 <span class="info-box-number">
-                                    45
+                                    #{customerRegistrationController.expiredCustomerList.size()}
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-bank"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text" title="Total amount on paid invoices">Bank Expense</span>
-                                <span class="info-box-number">
-                                    563
-                                </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-
-                    <!-- /.col -->
                 </div>
                 <!-- /.row -->
 
