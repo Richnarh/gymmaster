@@ -41,10 +41,13 @@ public class CustomerRegistrationController implements Serializable{
     private FormView pageView = FormView.listForm();
     private String optionText;
     
-    @PostConstruct
-    private void init()
+    public void init()
     {
-        customerRegistrationList = customerService.getCustomerRegistrationList();
+        customerRegistrationList = customerService.getCustomerRegistrationList();        
+    }
+    @PostConstruct
+    public void expired()
+    {
         expiredCustomerList = customerService.getExpiredRegistrationList();
         
         clearCustomerRegistration();

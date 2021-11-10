@@ -15,25 +15,30 @@
 
             <ui:define name="pageContent">
                 <h:panelGroup id="mainPanel">
-                    <div class="card mb-5 wow zoomIn">
+                    <div class="card mb-5">
                         <div class="container-fluid">
                             <div class="card-header">Add #{msg.customer}</div>
                             <h:panelGroup rendered="#{customerRegistrationController.pageView.listView}">
                                 <div class="row">
                                     <div class="col-12 col-sm-12 col-lg-12">
-                                        <h:form class="float-right pt-3" style="margin-bottom: 5px;">
-
+                                        <h:form class="pt-3" style="margin-bottom: 5px;">
+                                            <span class="mr-3 bg-gradient-blue shadow-sm p-1">Count: #{customerRegistrationController.customerRegistrationList.size()}</span>
+                                            
+                                            <h:commandButton value="Refresh Contacts" class="btn btn-outline-primary btn-sm"
+                                                                 action="#{customerRegistrationController.init()}"/>
+                                            
                                             <div class="float-right">
-                                                <span>Count: #{customerRegistrationController.customerRegistrationList.size()}</span>
+                                                
                                                 <h:commandButton value="#{msg.new} #{msg.customer}" class="btn btn-outline-primary btn-sm"
                                                                  action="#{customerRegistrationController.initRegistration()}">
                                                     <p:ajax update=":mainPanel"/>
                                                 </h:commandButton>
+                                                
                                             </div>
                                         </h:form>
                                     </div>
                                 </div>
-                                <h:form id="customerRegistrationTable" class="mb-3 wow">
+                                <h:form id="customerRegistrationTable" class="mb-3">
                                     <p:dataTable value="#{customerRegistrationController.customerRegistrationList}" reflow="true" var="customerRegistration" paginator="true" paginatorPosition="bottom" rows="12">
                                             <p:column exportable="false" style="width: 37px;">
                                                 <p:rowToggler/>
