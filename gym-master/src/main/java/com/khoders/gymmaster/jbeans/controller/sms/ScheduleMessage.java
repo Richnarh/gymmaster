@@ -127,7 +127,7 @@ public class ScheduleMessage extends TimerTask
                 newSms.genCode();
                 newSms.setSmsTime(LocalDateTime.now());
                 newSms.setMessage(clientMessage);
-                newSms.setsMSType(SMSType.SUBSCRIPTION_SMS);
+//                newSms.setsMSType(SMSType.SUBSCRIPTION_SMS);
                 newSms.setUserAccount(appSession.getCurrentUser());
                 newSms.setCustomerRegistration(customerRegistration);
                 if(crudApi.save(newSms) != null)

@@ -39,7 +39,7 @@ public class UsercommonBeans implements Serializable
     public void init()
     {
         smsGroupList = smsService.getGroupList();
-//       customerRegistrationList = smsService.getContactList();
+       customerRegistrationList = smsService.getContactList();
        senderIdList = smsService.getSenderIdList();
        messageTemplateList = smsService.getMessageTemplateList();
     }

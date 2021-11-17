@@ -10,6 +10,7 @@ import com.khoders.gymmaster.listener.AppSession;
 import com.khoders.resource.enums.PaymentStatus;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.BeansUtil;
+import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Msg;
 import com.khoders.resource.utilities.StringUtil;
 import com.khoders.resource.utilities.SystemUtils;
@@ -86,58 +87,34 @@ public class CustomerUploadController implements Serializable
                     customerRegistration.setCustomerName(BeansUtil.objToString(currentRow.getCell(0)));
                     
                     String phoneNumber = BeansUtil.objToString(currentRow.getCell(1));
-                    double amountPaid = BeansUtil.objToDouble(currentRow.getCell(5));
                     
                     phoneNumber = StringUtil.removeTrailingZero(phoneNumber);
                    
                     try
                     {
-                         phoneNumber = new BigDecimal(phoneNumber).toEngineeringString();
+                        phoneNumber = new BigDecimal(phoneNumber).toEngineeringString();
                     } catch (Exception e)
                     {
                     }
                     
-                    if(phoneNumber.length() == 9)
+                    if(phoneNumber.length() >= 9)
                     {
-                        customerRegistration.setPhoneNumber("0"+phoneNumber);
-                    }
-                    else
-                    {
-                     customerRegistration.setPhoneNumber(phoneNumber);   
-                    }
-                    
-                    customerRegistration.setEmail(BeansUtil.objToString(currentRow.getCell(4)));
-                    customerRegistration.setAmountPaid(amountPaid);
-                    customerRegistration.setPaymentStatus(PaymentStatus.resolve(BeansUtil.objToString(currentRow.getCell(6))));
-                    
-                    DataFormatter formatter = new DataFormatter();
-                    String regDate = formatter.formatCellValue(currentRow.getCell(2));
-                    String expiredDate = formatter.formatCellValue(currentRow.getCell(3));
-                      
-                    LocalDate registedDate = parseLocalDateWithPattern(regDate, "dd/MM/yyyy");
-                    LocalDate expireDate = parseLocalDateWithPattern(expiredDate, "dd/MM/yyyy");
-
-                    if(regDate != null)
-                    {
-                        customerRegistration.setRegistrationDate(registedDate);
+                        if(phoneNumber.contains("+233") || phoneNumber.contains("233"))
+                        {
+                          customerRegistration.setPhoneNumber(phoneNumber);  
+                        }
+                        else
+                        {
+                            customerRegistration.setPhoneNumber("0"+phoneNumber);
+                        }
+                        
                         successRegistrationList.add(customerRegistration);
                     }
                     else
                     {
-                        customerRegistration.setRegistrationDate(registedDate);
+                        customerRegistration.setPhoneNumber(phoneNumber);   
                         failedRegistrationList.add(customerRegistration);
-                    }
-                    
-                    if(expireDate != null)
-                    {
-                        customerRegistration.setExpiryDate(expireDate);
-                        successRegistrationList.add(customerRegistration);
-                    }
-                    else
-                    {
-                        customerRegistration.setExpiryDate(expireDate);
-                        failedRegistrationList.add(customerRegistration);
-                    }                  
+                    }           
                 }
                 
                 System.out.println("failedRegistrationList size => "+failedRegistrationList.size());
@@ -147,32 +124,6 @@ public class CustomerUploadController implements Serializable
         {
             e.printStackTrace();
         }
-    }
-    
-    public static LocalDate parseLocalDateWithPattern(String str, String pattern) 
-    {
-        try 
-        {
-            if(!str.equals(""))
-            {
-                String datePattern = "\\d{2}/\\d{2}/\\d{4}";
-                boolean isDate1 = str.trim().matches(datePattern);
-                
-                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(pattern);
-                
-                if(isDate1){
-                    LocalDate localDate = LocalDate.parse(str.trim(), dateFormat);
-
-                    return localDate;
-                }
-            }
-            
-        } catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-
-        return null;
     }
     
     public void saveUpload()

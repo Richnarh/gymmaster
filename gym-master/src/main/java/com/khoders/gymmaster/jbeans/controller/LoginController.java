@@ -124,6 +124,7 @@ public class LoginController implements Serializable
      
         System.out.println("Customer Name => "+expiredCustomer.getCustomerName());
         System.out.println("Customer Phone Number => "+expiredCustomer.getPhoneNumber());
+        
         try
         {
             ZenophSMS zsms = smsService.extractParams();
@@ -131,7 +132,7 @@ public class LoginController implements Serializable
             LocalDate formatedDate = DateUtil.parseLocalDateWithPattern(DateUtil.parseLocalDateString(expiredCustomer.getExpiryDate(), "dd/MM/yyyy"), "dd/MM/yyyy") ;
             
             String clientMessage = "Hello " + expiredCustomer.getCustomerName().trim() + ", \n"
-                    + "kindly be reminded that your gym subscription has expired on " + formatedDate + "." + " \n"
+                    + "kindly be reminded that your gym subscription expire on " + formatedDate + "." + " \n"
                     + "Kindly renew to have continuous access to the gym. \n" + "Thank you.";
 
             zsms.setMessage(clientMessage);
@@ -186,7 +187,7 @@ public class LoginController implements Serializable
                 newSms.genCode();
                 newSms.setSmsTime(LocalDateTime.now());
                 newSms.setMessage(clientMessage);
-                newSms.setsMSType(SMSType.SUBSCRIPTION_SMS);
+//                newSms.setsMSType(SMSType.SUBSCRIPTION_SMS);
                 newSms.setUserAccount(appSession.getCurrentUser());
                 newSms.setCustomerRegistration(customerRegistration);
                 if(crudApi.save(newSms) != null)

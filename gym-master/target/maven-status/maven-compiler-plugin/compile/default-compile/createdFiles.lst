@@ -28,5 +28,6 @@ com\khoders\gymmaster\jbeans\converter\CustomerRegistrationConverter.class
 com\khoders\gymmaster\jbeans\controller\SenderIdController.class
 com\khoders\gymmaster\commons\UsercommonBeans.class
 com\khoders\gymmaster\jbeans\controller\sms\ScheduleMessage.class
+com\khoders\gymmaster\jbeans\controller\CustomerUploadController_Copy.class
 com\khoders\gymmaster\jbeans\controller\ScheduleTimer.class
 com\khoders\gymmaster\jbeans\SmsAccess.class

@@ -81,7 +81,8 @@
                                                     <h:outputText value="#{customer.phoneNumber}" style="width: 140px"/>
                                                 </p:column>
 
-                                                <p:column headerText="Reg. Date" class="text-right">
+                                                <ui:remove>
+                                                    <p:column headerText="Reg. Date" class="text-right">
                                                     <h:outputText value="#{customer.registrationDate}">
                                                         <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
                                                     </h:outputText>
@@ -103,6 +104,7 @@
                                                     <h:outputText value="#{customer.paymentStatus}"/>
                                                 </p:column>
 
+                                                </ui:remove>
                                             </p:dataTable>
 
                                             <div class="p-2">
@@ -115,12 +117,7 @@
                                     </div>
 
                                     <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-                                        <p class="alert alert-info">
-                                            <i class="fa fa-info"></i>
-                                            Excel date format should be <b>dd/mm/yyyy</b>, 
-                                            other format may fail to upload, do examine failed data after export
-                                            and upload again.
-                                        </p>
+
                                         <h:form>
                                             <h:commandButton class="btn btn-sm btn-light" value="Export to Excel" rendered="#{!empty customerUploadController.failedRegistrationList}">
                                                 <p:dataExporter target=":failedForm:failedTable" type="xlsx" fileName="failed-uploads"/>
@@ -138,6 +135,13 @@
                                                     <h:outputText value="#{customer.phoneNumber}" style="width: 140px"/>
                                                 </p:column>
 
+                                                <ui:remove>
+                                                    <!--                                        <p class="alert alert-info">
+                                            <i class="fa fa-info"></i>
+                                            Excel date format should be <b>dd/mm/yyyy</b>, 
+                                            other format may fail to upload, do examine failed data after export
+                                            and upload again.
+                                        </p>-->
                                                 <p:column headerText="Reg. Date">
                                                     <h:outputText value="#{customer.registrationDate}">
                                                         <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
@@ -162,6 +166,7 @@
                                                 <p:column headerText="Payment Status">
                                                     <h:outputText value="#{customer.paymentStatus}"/>
                                                 </p:column>
+                                                </ui:remove>
 
                                             </p:dataTable>
                                         </h:form>

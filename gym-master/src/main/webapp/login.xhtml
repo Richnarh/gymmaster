@@ -11,7 +11,7 @@
     <body class="body">
         <h:form class="login">
         <p:messages/>
-        <center><u>Gym Master</u></center>
+        <center><u>#{msg.appName}</u></center>
             <input type="text" required="true" jsf:value="#{loginController.userEmail}" placeholder="Phone Number"/>
             <input type="password" required="true" jsf:value="#{loginController.password}" placeholder="Password"/>
             <button jsf:action="#{loginController.doLogin()}">Login</button>
