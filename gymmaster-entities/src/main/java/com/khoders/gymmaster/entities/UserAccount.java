@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -28,6 +29,9 @@ public class UserAccount extends BaseModel implements Serializable{
   
   @Column(name = "address")
   private String address;
+  
+  @Transient
+  private String password2;
 
     public String getFullname()
     {
@@ -77,6 +81,14 @@ public class UserAccount extends BaseModel implements Serializable{
     public void setAddress(String address)
     {
         this.address = address;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
   
 }

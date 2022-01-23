@@ -44,7 +44,7 @@ public class UserAccountService
     
     public boolean isTaken(String email)
     {
-        String qryString = "SELECT e FROM UserAccount e WHERE e.email=?1";
+        String qryString = "SELECT e FROM UserAccount e WHERE e.phoneNumber=?1";
         try {
             UserAccount account = crudApi.getEm().createQuery(qryString, UserAccount.class)
                     .setParameter(1, email)

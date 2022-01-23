@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>#{msg.title} | Login</title> 
+        <link rel="stylesheet" href="#{application.contextPath}/vendors/css/login.css" />    
+    </h:head>
+    <body class="body">
+        <h:form class="login">
+        <p:messages/>
+        <center><u>#{msg.appName}</u></center>
+        <input type="text" required="true" jsf:value="#{signupController.userAccount.phoneNumber}" placeholder="Phone Number"/>
+        <input type="password" required="true" jsf:value="#{signupController.userAccount.password}" placeholder="Password"/>
+        <input type="password" required="true" jsf:value="#{signupController.userAccount.password2}" placeholder="Confirm Password"/>
+            <button jsf:action="#{signupController.saveAccount()}">Login</button>
+        </h:form>  
+    </body>
+</html>
+
