@@ -32,13 +32,13 @@
                                     </div>
                                     <div class="form-group">
                                         <p class="col-form-label text-muted">#{msg.contact} <span class="text-danger">*</span></p>
-                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.customerRegistration}" required="true" filter="true" filterMatchMode="contains">
+                                        <p:selectOneMenu value="#{contactGroupController.contactGroup.customerRegistration}" filter="true" filterMatchMode="contains">
                                             <f:selectItem itemLabel="#{msg.choose}"/>
                                             <f:selectItems value="#{usercommonBeans.customerRegistrationList}"/>
                                         </p:selectOneMenu>
                                     </div>
                                     <div class="pt-3">
-                                        <p:commandButton class="kbtn-success mr-3" value="#{contactGroupController.optionText}" update="@form, :contactGroupTable"
+                                        <p:commandButton class="kbtn-success mr-3" value="#{contactGroupController.optionText}" ajax="false"
                                                          action="#{contactGroupController.saveContactGroup()}"/>
 
                                         <p:commandButton class="kbtn-cancel" value="#{msg.clear}" immediate="true"

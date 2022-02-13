@@ -2,6 +2,7 @@ com\khoders\gymmaster\listener\AppSession.class
 com\khoders\gymmaster\jbeans\controller\sms\SmsController.class
 com\khoders\gymmaster\services\SmsService.class
 com\khoders\gymmaster\config\AppInint.class
+com\khoders\gymmaster\jbeans\controller\SignupController.class
 com\khoders\gymmaster\Pages.class
 com\khoders\gymmaster\services\CustomerService.class
 com\khoders\gymmaster\jbeans\converter\GroupContactConverter.class

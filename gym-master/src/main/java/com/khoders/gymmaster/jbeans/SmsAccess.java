@@ -11,8 +11,8 @@ package com.khoders.gymmaster.jbeans;
  */
 public class SmsAccess
 {
-  public static  String USERNAME = "faithworld";
-  public static  String PASSWORD = "faithworld001";
-//  public static  String USERNAME = "aiaghana";
-//  public static  String PASSWORD = "654321abcd";
+//  public static  String USERNAME = "faithworld";
+//  public static  String PASSWORD = "faithworld001";
+  public static  String USERNAME = "aiaghana";
+  public static  String PASSWORD = "aiaghana001";
 }

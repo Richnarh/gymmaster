@@ -345,6 +345,11 @@ public class SmsController implements Serializable
 
     public void loadContactGroup()
     {
+        if(smsGrup.getGroupName().equals("All"))
+        {
+          groupContactList = smsService.getContactGroupList();
+          return;
+        }
         groupContactList = smsService.getContactGroupList(smsGrup);
     }
     

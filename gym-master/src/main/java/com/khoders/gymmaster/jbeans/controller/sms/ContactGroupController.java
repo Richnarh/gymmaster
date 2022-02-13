@@ -5,6 +5,7 @@
  */
 package com.khoders.gymmaster.jbeans.controller.sms;
 
+import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.sms.GroupContact;
 import com.khoders.gymmaster.listener.AppSession;
 import com.khoders.gymmaster.services.SmsService;
@@ -49,6 +50,29 @@ public class ContactGroupController implements Serializable{
     {
         try 
         {
+            
+           if(contactGroup.getSmsGrup().getGroupName().equals("All"))
+           {
+             List<CustomerRegistration> customerList = smsService.getContactList();
+               System.out.println("customerList => "+customerList.size());
+            
+               customerList.forEach(customer -> {
+                   GroupContact contact = new GroupContact();
+                    
+                    contact.genCode();
+                    contact.setSmsGrup(contactGroup.getSmsGrup());
+                    contact.setCustomerRegistration(customer);
+                    contact.setUserAccount(appSession.getCurrentUser());
+                  
+                    if(crudApi.save(contact) != null)
+                    {
+                        contactGroupList = CollectionList.washList(contactGroupList, contact);
+                    }
+               });
+             
+             return;
+           }
+            
           contactGroup.genCode();
           if(crudApi.save(contactGroup) != null)
           {
