@@ -13,6 +13,6 @@ public class SmsAccess
 {
 //  public static  String USERNAME = "faithworld";
 //  public static  String PASSWORD = "faithworld001";
-  public static  String USERNAME = "aiaghana";
-  public static  String PASSWORD = "aiaghana001";
+  public static  String USERNAME = "pascal";
+  public static  String PASSWORD = "pascal001";
 }

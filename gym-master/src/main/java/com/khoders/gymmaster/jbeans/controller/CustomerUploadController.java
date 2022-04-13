@@ -137,8 +137,7 @@ public class CustomerUploadController implements Serializable
                 customer.setUserAccount(appSession.getCurrentUser());
                 crudApi.save(customer);
             }); 
-               FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Customer uploads saved successful!"), null));   
+               Msg.info(Msg.setMsg("Customer uploads saved successful!"));
             }
         } catch (Exception e)
         {
