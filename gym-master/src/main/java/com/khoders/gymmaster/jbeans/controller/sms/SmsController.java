@@ -360,13 +360,11 @@ public class SmsController implements Serializable
             if(crudApi.delete(sms))
             {
                 smsList.remove(sms);
-                FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.SUCCESS_MESSAGE, null)); 
+                Msg.info(Msg.SUCCESS_MESSAGE);
             }
             else
             {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.FAILED_MESSAGE, null)); 
+             Msg.error(Msg.FAILED_MESSAGE);
             }
         } catch (Exception e)
         {

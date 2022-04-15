@@ -78,13 +78,11 @@ public class ContactGroupController implements Serializable{
           {
               contactGroupList = CollectionList.washList(contactGroupList, contactGroup);
               
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.SUCCESS_MESSAGE, null)); 
+            Msg.info(Msg.SUCCESS_MESSAGE);
           }
           else
           {
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Oops! failed to create contactGroup"), null));
+            Msg.info("Oops! failed to create contactGroup");
           }
            clearContactGroup();
         } catch (Exception e) 
@@ -107,13 +105,11 @@ public class ContactGroupController implements Serializable{
           {
               contactGroupList.remove(contactGroup);
               
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Contact Group deleted successfully!"), null)); 
+              Msg.info("Contact Group deleted successfully!");
           }
           else
           {
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.FAILED_MESSAGE, null));
+             Msg.error(Msg.FAILED_MESSAGE);
           }
         } catch (Exception e) 
         {
