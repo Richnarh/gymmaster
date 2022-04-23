@@ -10,7 +10,7 @@
     <h:body>
         <ui:composition template="../templatesUI.xhtml">
             <ui:define name="pageTitle">
-                Customer Registration
+                Contact Registration
             </ui:define>
 
             <ui:define name="pageContent">
@@ -46,6 +46,9 @@
 
                                         <p:rowExpansion>
                                             <h:panelGrid columns="2">
+                                                <span>Ref. No.</span>
+                                                <h:outputText value="#{customerRegistration.refNo}"/>
+                                                
                                                 <span>#{msg.created_date}</span>
                                                 <h:outputText value="#{customerRegistration.createdDate}">
                                                     <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
@@ -81,11 +84,7 @@
                                             </h:panelGrid>
                                         </p:rowExpansion>
 
-                                        <p:column headerText="Ref. No." style="width: 120px;">
-                                            #{customerRegistration.refNo}
-                                        </p:column>
-
-                                        <p:column headerText="#{msg.customer} Name" filterBy="#{customerRegistration.customerName}" filterMatchMode="contains">
+                                        <p:column headerText="Contact Name" filterBy="#{customerRegistration.customerName}" filterMatchMode="contains">
                                             #{customerRegistration.customerName}
                                         </p:column>
 
@@ -109,9 +108,9 @@
                                         <div class="card-block">
 
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">#{msg.customer} Name <span class="text-danger">*</span> </label>
+                                                <label class="col-sm-4 col-form-label">Contact Name </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" jsf:value="#{customerRegistrationController.customerRegistration.customerName}" required="true" class="form-control" placeholder="Enter name"/>
+                                                    <input type="text" jsf:value="#{customerRegistrationController.customerRegistration.customerName}" class="form-control" placeholder="Enter name"/>
                                                 </div>
                                             </div>
                                             <div class="form-group row">

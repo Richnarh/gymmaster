@@ -90,5 +90,12 @@ public class UserAccount extends BaseModel implements Serializable{
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
+
+    @Override
+    public String toString()
+    {
+        return phoneNumber + " - "+ fullname;
+    }
   
+    
 }

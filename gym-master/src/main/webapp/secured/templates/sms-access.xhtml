@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                SMS Logins
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <div class="container-fluid">
+                    <div class="col-md-10 mx-auto">
+                        <div class="card">
+                            <h5 class="card-header">SMS Access</h5>
+                            <div class="card-body mx-auto">
+                                <h:form class="spaced-form" id="smsAccessForm">
+                                    <h:panelGrid columns="2">
+                                        <span class="required_field">Username</span>
+                                        <p:inputText value="#{smsAccessController.smsAccess.username}" required="true"/>
+                                        
+                                        <span class="required_field">Password</span>
+                                        <p:inputText value="#{smsAccessController.smsAccess.password}" required="true"/>
+                                        
+                                        <span class="required_field">Account</span>
+                                        <p:selectOneMenu value="#{smsAccessController.smsAccess.userAccount}" filter="true" filterMatchMode="contains" required="true">
+                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                            <f:selectItems value="#{usercommonBeans.userAccountList}"/>
+                                        </p:selectOneMenu>
+                                        
+                                        <p:commandButton value="#{msg.clear}" immediate="true" action="#{smsAccessController.clear()}" update="@form" class="kbtn-light"/>
+                                        <p:commandButton value="#{smsAccessController.optionText}" action="#{smsAccessController.saveSmsAccess()}" update="@form, :smsAccessTbl" class="kbtn-success"/>
+                                    </h:panelGrid>
+                                     </h:form>
+                                    <br/>
+                                    
+                                    <h:form id="smsAccessTbl">
+                                         <p:dataTable value="#{smsAccessController.smsAccessList}" var="smsAccess">
+                                        <p:column headerText="Username">
+                                            #{smsAccess.username}
+                                        </p:column>
+                                        <p:column headerText="Password">
+                                            #{smsAccess.password}
+                                        </p:column>
+                                        <p:column headerText="Account">
+                                            #{smsAccess.userAccount.phoneNumber} - #{smsAccess.userAccount.fullname}
+                                        </p:column>
+                                        <p:column headerText="#{msg.action}" exportable="false" style="width: 100px;">
+                                            <p:menuButton value="#{msg.choose}">
+                                                <p:menuitem icon="fa fa-edit" class="text-info" value="#{msg.edit}" immediate="true" update=":smsAccessForm" action="#{smsAccessController.editSmsAccess(smsAccess)}"/>
+                                                <p:menuitem icon="fa fa-remove" class="text-danger" value="#{msg.delete}" immediate="true" update="@form" action="#{smsAccessController.deleteSmsAccess(smsAccess)}"/>
+                                            </p:menuButton>
+                                        </p:column>
+                                    </p:dataTable>
+                               
+                                    </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

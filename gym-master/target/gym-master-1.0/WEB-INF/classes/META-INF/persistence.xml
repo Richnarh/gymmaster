@@ -11,6 +11,7 @@
     <class>com.khoders.gymmaster.entities.sms.SMSGrup</class>
     <class>com.khoders.gymmaster.entities.sms.SenderId</class>
     <class>com.khoders.gymmaster.entities.sms.Sms</class>
+    <class>com.khoders.gymmaster.entities.sms.SmsAccess</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

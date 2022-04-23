@@ -52,16 +52,7 @@ public class CustomerRegistrationController implements Serializable{
         
         clearCustomerRegistration();
     }
-    
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-    
-     public void delete() {
-        addMessage("Confirmed", "Record deleted");
-    }
-     
+
     public void initRegistration()
     {
         clearCustomerRegistration();
@@ -73,17 +64,19 @@ public class CustomerRegistrationController implements Serializable{
         try 
         {
            customerRegistration.genCode();
+           if(customerRegistration.getCustomerName() == null)
+           {
+              customerRegistration.setCustomerName("Unknown");
+           }
           if(crudApi.save(customerRegistration) != null)
           {
               customerRegistrationList = CollectionList.washList(customerRegistrationList, customerRegistration);
               
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.SUCCESS_MESSAGE, null)); 
+              Msg.info(Msg.SUCCESS_MESSAGE);
           }
           else
           {
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.FAILED_MESSAGE, null));
+             Msg.error(Msg.FAILED_MESSAGE);
           }
           closePage();
         } catch (Exception e) 
@@ -99,14 +92,11 @@ public class CustomerRegistrationController implements Serializable{
           if(crudApi.delete(customerRegistration))
           {
               customerRegistrationList.remove(customerRegistration);
-              
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.SUCCESS_MESSAGE, null)); 
+              Msg.info(Msg.SUCCESS_MESSAGE);
           }
           else
           {
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.FAILED_MESSAGE, null));
+             Msg.error(Msg.FAILED_MESSAGE);
           }
         } catch (Exception e) 
         {

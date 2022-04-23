@@ -8,6 +8,7 @@ package com.khoders.gymmaster.jbeans.controller;
 import com.khoders.gymmaster.entities.UserAccount;
 import com.khoders.gymmaster.services.UserAccountService;
 import com.khoders.resource.jpa.CrudApi;
+import com.khoders.resource.utilities.CollectionList;
 import com.khoders.resource.utilities.Msg;
 import com.khoders.resource.utilities.SecurityUtil;
 import static com.khoders.resource.utilities.SecurityUtil.hashText;
@@ -15,9 +16,9 @@ import com.khoders.resource.utilities.SystemUtils;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -26,7 +27,7 @@ import javax.inject.Named;
  * @author khoders
  */
 @Named(value="signupController")
-@RequestScoped
+@SessionScoped
 public class SignupController implements Serializable{
     @Inject CrudApi crudApi;
     @Inject UserAccountService accountService;
@@ -34,42 +35,52 @@ public class SignupController implements Serializable{
     private UserAccount userAccount = new UserAccount();
     
     private List<UserAccount> accountList = new LinkedList<>();
+    private String optionText;
+    private String updatePassword;
+    
+    @PostConstruct
+    private void init()
+    {
+        clear();
+        accountList = accountService.accountList();
+    }
     
     public void saveAccount()
     {
+        System.out.println("heeeeeeeeeeeeeee");
         try 
         {
             if(!SecurityUtil.checkPassword(userAccount.getPassword(), userAccount.getPassword2()))
             {
-                FacesContext
-                        .getCurrentInstance()
-                        .addMessage(null, 
-                        new FacesMessage(
-                                FacesMessage.SEVERITY_ERROR, Msg.setMsg("Password do not match"), null));
+               Msg.error("Password do not match");
                 return;
             }
             
-            if(!accountService.isTaken(userAccount.getPhoneNumber()))
-            {
-              userAccount.setPassword(hashText(userAccount.getPassword()));
-
+//            if(!accountService.isTaken(userAccount.getPhoneNumber()))
+//            {
+              if(optionText.equals("Update")){
+                  userAccount.setPassword(updatePassword);
+              }
+              else
+              {
+                  userAccount.setPassword(hashText(userAccount.getPassword()));
+              }
+              
             if(crudApi.save(userAccount) != null)
             {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Account created, Login now!"), null));
+                accountList = CollectionList.washList(accountList, userAccount);
+                Msg.info("Account created, Login now!");
             }  
             else
             {
-              FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Oops! something went wrong, could not create account!"), null));
+              Msg.info("Oops! something went wrong, could not create account!");
             }
-          }
-          else
-           {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("Email is already taken!"), null));
-           }
-        reset();
+//          }
+//          else
+//           {
+//            Msg.error("Email is already taken!");
+//           }
+        clear();
         } 
         catch (Exception e)
         {
@@ -77,15 +88,18 @@ public class SignupController implements Serializable{
         }
     }
     
-    public void reset()
+    public void clear()
     {
         userAccount = new UserAccount();
+        optionText = "Save Changes";
         SystemUtils.resetJsfUI();
     }
        
     public void editAccount(UserAccount account)
     {
+        updatePassword = account.getPassword();
         this.userAccount = account;
+        optionText = "Update";
     }
     
     public UserAccount getUserAccount() {
@@ -104,6 +118,16 @@ public class SignupController implements Serializable{
     public void setAccountList(List<UserAccount> accountList)
     {
         this.accountList = accountList;
+    }
+
+    public String getOptionText()
+    {
+        return optionText;
+    }
+
+    public void setOptionText(String optionText)
+    {
+        this.optionText = optionText;
     }
     
 }

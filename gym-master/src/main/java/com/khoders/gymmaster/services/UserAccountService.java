@@ -9,6 +9,7 @@ import com.khoders.gymmaster.entities.UserAccount;
 import com.khoders.gymmaster.jbeans.UserModel;
 import com.khoders.resource.jpa.CrudApi;
 import static com.khoders.resource.utilities.SecurityUtil.hashText;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
@@ -57,5 +58,8 @@ public class UserAccountService
             e.printStackTrace();
         }
         return false;
+    }
+    public List<UserAccount> accountList(){
+        return crudApi.getEm().createQuery("SELECT e FROM UserAccount e", UserAccount.class).getResultList();
     }
 }

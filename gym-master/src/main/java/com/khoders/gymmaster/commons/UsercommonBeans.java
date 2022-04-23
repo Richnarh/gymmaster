@@ -6,10 +6,12 @@
 package com.khoders.gymmaster.commons;
 
 import com.khoders.gymmaster.entities.CustomerRegistration;
+import com.khoders.gymmaster.entities.UserAccount;
 import com.khoders.gymmaster.entities.sms.MessageTemplate;
 import com.khoders.gymmaster.entities.sms.SMSGrup;
 import com.khoders.gymmaster.entities.sms.SenderId;
 import com.khoders.gymmaster.services.SmsService;
+import com.khoders.gymmaster.services.UserAccountService;
 import com.khoders.resource.jpa.CrudApi;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -29,11 +31,13 @@ public class UsercommonBeans implements Serializable
 {
     @Inject private CrudApi crudApi;
     @Inject private SmsService smsService;
+    @Inject UserAccountService accountService;
     
     private List<CustomerRegistration> customerRegistrationList = new LinkedList<>();
     private List<SenderId> senderIdList = new LinkedList<>();
     private List<MessageTemplate> messageTemplateList = new LinkedList<>();
     private List<SMSGrup> smsGroupList = new LinkedList<>();
+    private List<UserAccount> userAccountList = new LinkedList<>();
     
     @PostConstruct
     public void init()
@@ -42,6 +46,7 @@ public class UsercommonBeans implements Serializable
        customerRegistrationList = smsService.getContactList();
        senderIdList = smsService.getSenderIdList();
        messageTemplateList = smsService.getMessageTemplateList();
+       userAccountList = accountService.accountList();
     }
 
     public List<CustomerRegistration> getCustomerRegistrationList()
@@ -61,6 +66,11 @@ public class UsercommonBeans implements Serializable
 
     public List<SMSGrup> getSmsGroupList() {
         return smsGroupList;
+    }
+
+    public List<UserAccount> getUserAccountList()
+    {
+        return userAccountList;
     }
     
 }

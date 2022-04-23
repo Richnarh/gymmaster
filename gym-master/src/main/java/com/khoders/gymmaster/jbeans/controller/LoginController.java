@@ -11,7 +11,6 @@ import com.khoders.gymmaster.Pages;
 import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.entities.UserAccount;
 import com.khoders.gymmaster.entities.sms.Sms;
-import com.khoders.gymmaster.enums.SMSType;
 import com.khoders.gymmaster.jbeans.UserModel;
 import com.khoders.gymmaster.listener.AppSession;
 import com.khoders.gymmaster.services.CustomerService;

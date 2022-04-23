@@ -14,10 +14,12 @@ import com.khoders.gymmaster.entities.sms.MessageTemplate;
 import com.khoders.gymmaster.entities.sms.SMSGrup;
 import com.khoders.gymmaster.entities.sms.SenderId;
 import com.khoders.gymmaster.entities.sms.Sms;
+import com.khoders.gymmaster.entities.sms.SmsAccess;
 import com.khoders.gymmaster.enums.SMSType;
-import com.khoders.gymmaster.jbeans.SmsAccess;
 import com.khoders.gymmaster.listener.AppSession;
 import com.khoders.resource.jpa.CrudApi;
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -214,16 +216,28 @@ public class SmsService
         return null;
     }
     
+    public List<SmsAccess> smsAccessList(){
+        return crudApi.getEm().createQuery("SELECT e FROM SmsAccess e", SmsAccess.class).getResultList();
+    }
+    
     public ZenophSMS extractParams()
     {
         ZenophSMS zsms = new ZenophSMS();
         try
         {
-            zsms.setUser(SmsAccess.USERNAME);
-            zsms.setPassword(SmsAccess.PASSWORD);
+            SmsAccess smsAccess = crudApi.getEm().createQuery("SELECT e FROM SmsAccess e WHERE e.userAccount=:userAccount", SmsAccess.class)
+                    .setParameter("userAccount", appSession.getCurrentUser())
+                    .getSingleResult();
+            if(smsAccess != null){
+                
+            System.out.println("Username --- "+smsAccess.getUsername());
+            System.out.println("Password --- "+smsAccess.getPassword());
+            
+            zsms.setUser(smsAccess.getUsername());
+            zsms.setPassword(smsAccess.getPassword());
             zsms.authenticate();
             zsms.setMessageType(MSGTYPE.TEXT);
-
+          }
         } catch (Exception e)
         {
             e.printStackTrace();

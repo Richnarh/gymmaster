@@ -7,10 +7,8 @@ package com.khoders.gymmaster.jbeans.controller;
 
 import com.khoders.gymmaster.entities.CustomerRegistration;
 import com.khoders.gymmaster.listener.AppSession;
-import com.khoders.resource.enums.PaymentStatus;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.BeansUtil;
-import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Msg;
 import com.khoders.resource.utilities.StringUtil;
 import com.khoders.resource.utilities.SystemUtils;
@@ -18,17 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -130,9 +123,14 @@ public class CustomerUploadController implements Serializable
     {
         try
         {
+            
             if(crudApi.save(customerRegistration) != null)
             {
                successRegistrationList.forEach(customer ->{
+                   if (customer.getCustomerName() == null)
+                   {
+                       customer.setCustomerName("Unknown");
+                   }
                 customer.genCode();
                 customer.setUserAccount(appSession.getCurrentUser());
                 crudApi.save(customer);
